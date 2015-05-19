@@ -25,3 +25,13 @@ build/Release
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
+
+# Ignore typescript fast compile files
+build/.tscache
+
+# Ignore build files
+build/temp/*
+build/typings/*
+
+# Ignore ide files
+.idea

@@ -1,0 +1,26 @@
+{
+  "name": "solidify-2",
+  "version": "0.1.0",
+  "devDependencies": {
+    "grunt": "latest",
+    "grunt-assemble": "latest",
+    "grunt-autoprefixer": "latest",
+    "grunt-clean-ts-extends": "latest",
+    "grunt-contrib-clean": "latest",
+    "grunt-contrib-concat": "latest",
+    "grunt-contrib-connect": "latest",
+    "grunt-contrib-cssmin": "latest",
+    "grunt-contrib-handlebars": "latest",
+    "grunt-contrib-less": "latest",
+    "grunt-contrib-requirejs": "latest",
+    "grunt-contrib-uglify": "latest",
+    "grunt-contrib-watch": "latest",
+    "grunt-js-module-path": "latest",
+    "grunt-json": "latest",
+    "grunt-shell": "latest",
+    "grunt-ts": "latest",
+    "load-grunt-tasks": "latest"
+  },
+  "scripts": {},
+  "dependencies": {}
+}
