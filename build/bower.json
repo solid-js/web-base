@@ -1,6 +1,6 @@
 {
-  "name": "solid-libs",
-  "version": "0.1.0",
+  "name": "solidify-web-base",
+  "version": "0.2.0",
   "dependencies": {
     "requirejs" : "latest",
     "jquery" : "latest",
