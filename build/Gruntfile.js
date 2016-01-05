@@ -1,37 +1,79 @@
 module.exports = function (grunt)
 {
-	// require('time-grunt')(grunt);
-
-
-	grunt.config.initConfig({
-		path: {
-			config				: './grunt-config/',
-			temp				: './temp/',
-			src					: '../src/',
-			lib					: '../lib/',
-			deploy				: '../deploy/'
-		}
-	});
+	// ------------------------------------------------------------------------- INIT
 
 	// Change default delimiters
 	grunt.template.addDelimiters('config', '{', '}');
 
 	// Autoload grunt tasks
+	require('time-grunt')(grunt);
 	require('load-grunt-tasks')(grunt);
 
+	// ------------------------------------------------------------------------- GLOBAL CONFIG
+
+	// Init global config parameters
+	grunt.config.init({
+
+		// Load package definitions
+		pkg: grunt.file.readJSON('package.json'),
+
+		// Configure global paths. This is flexible but please keep it simple.
+		// Important : please include trailing slash for all folders
+		path: {
+			// Root folder (have to contain lib and src)
+			root			: '../',
+
+			// Folder containing grunt configuration files
+			config			: './grunt-config/',
+
+			// Path to the temp folder for asset packing processing
+			temp			: './temp/',
+
+			// Path to the source (your project)
+			src				: '../src/',
+
+			// Path to the libs (bower libs)
+			lib				: '../lib/',
+
+			// Path to the deploy (output files pushed to the server)
+			deploy			: '../deploy/'
+		},
+
+		// Configure asset packer
+		assetPacker: {
+			// Main typescript and less filename for modules
+			main			: 'Main',
+
+			typescriptTemp	: '{= path.temp }typescript/',
+
+			// File selector targeting all typescript definition files
+			definitions		: './typescript-definitions/**/*.d.ts'
+		}
+	});
+
+	// ------------------------------------------------------------------------- CONFIG LOADER
+
 	// Load grunt sub-configurations
-	require('./solid/grunt-config-loader').load([
+	require('./solid/grunt-config-loader').load(grunt, [
+		'autoprefixer',
+		'clean',
+		'concat',
+		'cssmin',
+		'handlebars',
+		'json',
 		'less',
-		'typescript'
+		'ts',
+		'uglify',
+		'watch'
 	]);
 
-	// Overload grunt config with asset oriented files
-	require('./solid/dynamic-grunt').load([
+	// ------------------------------------------------------------------------- ASSET PACKER
+
+	var test =
 
 		// This file includes all static javascript dependencies
 		{
 			type: 'js',
-			name: 'static-js',
 			dest: '{= path.deploy }assets/js/static-libs.js',
 			src: [
 				// AMD modules management with async define and requirejs statements
@@ -56,17 +98,24 @@ module.exports = function (grunt)
 				'{= path.lib }gsap/src/minified/easing/*.js',
 				'{= path.lib }gsap/src/minified/plugins/*.js'
 			]
-		},
+		};
+	// Overload grunt config with asset oriented files
+	require('./solid/grunt-assets-packer').load(grunt, [
 
 		// Common dependencies
 		{
 			type: 'module',
 			name: 'common',
 
+			// Output files
 			js: '{= path.deploy }assets/js/common.js',
 			css: '{= path.deploy }assets/css/common.css',
 
-			root: '{= path.src }common'
+			// Included folders
+			include: ['components/'],
+
+			// Include solidify AMD modules
+			includeAmd: ['solidify/']
 		},
 
 		// Package module 1
@@ -74,10 +123,12 @@ module.exports = function (grunt)
 			type: 'module',
 			name: 'myModule1',
 
+			// Output files
 			js: '{= path.deploy }assets/js/my-module-1.js',
 			css: '{= path.deploy }assets/css/my-module-1.css',
 
-			root: '{= path.src }myModule1'
+			// Included folders
+			include: ['components/']
 		},
 
 		// Package module 2
@@ -85,248 +136,17 @@ module.exports = function (grunt)
 			type: 'module',
 			name: 'myModule2',
 
+			// Output files
 			js: '{= path.deploy }assets/js/my-module-2.js',
-			css: '{= path.deploy }assets/css/my-module-1.css',
+			css: '{= path.deploy }assets/css/my-module-2.css',
 
-			root: '{= path.src }myModule2'
+			// Included folders
+			include: ['components/']
 		}
 	]);
-};
 
-
-
-
-
-function test ()
-{
-	// ------------------------------------------------------------------------- TASK
-
-	// Populate grunt config dynamically
-	require('./solid/dynamic-grunt').populateGruntConfig(grunt, staticConfig,
-
-		// --------------------------------------------------------------------- BUNDLES CONFIG
-		[
-			// Package static JS libraries in one file
-			{
-				type: 'js',
-				name: 'static-js',
-				dest: 'deploy/js/static-libs.js',
-				src: [
-					// AMD modules management with async define and requirejs statements
-					'lib/requirejs/require.js',
-
-					// define.amd is disabled so helpers libs like jQuery and handlebars are available in window, no need to require them
-					'build/solid/require-disable-AMD.js',
-
-					// JQUERY on window
-					'lib/jquery/dist/jquery.min.js',
-
-					// HANDLEBARS TEMPLATING on window
-					'lib/handlebars/handlebars.js',
-
-					// Q on window
-					'lib/q/q.js',
-
-					// GSAP on window
-					'lib/gsap/src/minified/TweenLite.min.js',
-					'lib/gsap/src/minified/TimelineLite.min.js',
-					'lib/gsap/src/minified/jquery.gsap.min.js',
-					'lib/gsap/src/minified/easing/*.js',
-					'lib/gsap/src/minified/plugins/*.js',
-
-					// SOLID JS framework
-					'lib/solid-js/**/*.ts'
-				]
-			},
-
-			// Package static CSS libraries
-			{
-				type: 'css',
-				name: 'static-css',
-				dest: 'deploy/css/static-libs.css',
-				src: [
-					'lib/knacss/less/knacss.less'
-				]
-			},
-
-			// Package components
-			{
-				type: 'app',
-				name: 'components',
-				js: 'deploy/js/components.js',
-				css: 'deploy/css/components.css',
-				app: 'src/components/',
-				include: [
-					'**/'
-				]
-			},
-
-			// Package front app in one file
-			{
-				type: 'app',
-				name: 'front-app',
-				js: 'deploy/js/front-app.js',
-				css: 'deploy/css/front-app.css',
-				app: 'src/apps/front/',
-				include: [
-					'common/',
-					'pages/'
-				]
-			},
-
-			// Package back app in one file
-			{
-				type: 'app',
-				name: 'back-app',
-				js: 'deploy/js/back-app.js',
-				css: 'deploy/css/back-app.css',
-				app: 'src/apps/back/',
-				include: [
-					'common/',
-					'pages/'
-				]
-			}
-		],
-
-		// --------------------------------------------------------------------- GRUNT CONFIG
-		{
-			// Load package definitions
-			pkg: grunt.file.readJSON('package.json'),
-
-			// Compile less files
-			less: {
-				options: {
-					cleancss: false,
-					compress: false
-				}
-			},
-
-			// Concat multiples files
-			concat: {
-				options: {
-
-					// Remove all comments
-					stripBanners: {
-						block: true,
-						line: true
-					},
-
-					// Use ES5 strict mode
-					banner: '"use strict";\n\n',
-					separator: '\n'
-				}
-			},
-
-			// Typescript compilation
-			ts: {
-				options: {
-					// Compile modules as AMD
-					module: 'amd',
-
-					// Target for ES5 javascript (ie9+)
-					target: 'es5',
-
-					// Some stuff
-					declaration: false,
-					sourceMap: false,
-					comments: false,
-					verbose: false
-					//fast: 'never'
-				}
-			},
-
-			// Requirejs compilation, preparing AMD modules and concatenating app as one file
-			requirejs: {
-				options: {
-					paths: {},
-					findNestedDependencies: false,
-					generateSourceMaps: false,
-					wrap: false,
-					useStrict: false,
-					optimize: "none"
-				}
-			},
-
-			// Clean extends statements added by typescript compiler
-			cleanTsExtends: {},
-
-			// Add modules path available in each modules as a string
-			jsModulePath: {},
-
-			// Clean-up dirty folders
-			clean: {},
-
-			// Compile handlebars templates to JS
-			handlebars: {
-				options: {
-					// Where are stored templates on window
-					namespace: 'TemplateFiles'
-				}
-			},
-
-			// Compile JSON files to JS
-			json: {
-				options: {
-					// Where are stored json files on window
-					namespace: 'JsonFiles'
-				}
-			},
-
-			// Obfuscate and compress javascript
-			uglify: {
-				options: {
-					mangle: false,
-					report: 'gzip',
-					footer: "window.__disableLogs = true;"
-				}
-			},
-
-			// Obfuscate and compress css
-			cssmin: {
-				options: {
-					report: 'gzip',
-					shorthandCompacting: false
-				}
-			},
-
-			// Add vendor prefix for css properties
-			autoprefixer: {
-				options: {
-					browsers: ['last 2 versions']
-				}
-			},
-
-			// Compose HTML files from handlebars templates
-			assemble: {
-
-			},
-
-			// Watch file change
-			watch: {
-				options: {
-					livereload: true,
-					interrupt: true
-				}
-			},
-
-			// Integrated webserver
-			connect: {
-				deploy: {
-					options: {
-						useAvailablePort: true,
-						base: staticConfig.projectWorkingDirectory + 'deploy/',
-						livereload: true,
-						open: true
-					}
-				}
-			},
-
-			// Execute shell stuff
-			shell: {}
-		}
-	);
+	// ------------------------------------------------------------------------- TASKS
 
 	// By default, compile all bundles and watch
-	grunt.registerTask('default', ['clean:all', 'all', 'connect:deploy', 'watch']);
-	grunt.registerTask('start', ['connect:deploy', 'watch']);
-}
+	grunt.registerTask('default', ['clean:all', 'all', 'watch']);
+};

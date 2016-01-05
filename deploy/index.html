@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="x-ua-compatible" content="IE=Edge"/>
+	<meta http-equiv="imagetoolbar" content="no" />
+	<meta charset="UTF-8">
+
+	<!-- META -->
+	<title></title>
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+
+	<!-- LOAD LIBS -->
+	<link rel="stylesheet" href="assets/css/static-libs.css" />
+	<script src="assets/js/static-libs.js"></script>
+
+	<!-- LOAD APP -->
+	<link rel="stylesheet" href="assets/css/front-app.css" />
+	<script src="assets/js/front-app.js"></script>
+<body>
+
+<!-- APP SCRIPTS -->
+<script>
+	// Bootstraping main javascript app
+	requirejs(['src/myModule1/Main'], function (MainModule)
+	{
+		new MainModule.Main();
+	});
+</script>
+</body>
+</html>

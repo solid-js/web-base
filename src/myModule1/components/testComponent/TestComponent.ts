@@ -1,6 +1,8 @@
-import {View} from 'solidify/coreView';
 
-export class TestComponent
+export default class TestComponent
 {
+	constructor ()
+	{
 
+	}
 }
