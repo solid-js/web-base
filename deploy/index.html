@@ -10,13 +10,16 @@
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
 
-	<!-- LOAD LIBS -->
-	<link rel="stylesheet" href="assets/css/static-libs.css" />
-	<script src="assets/js/static-libs.js"></script>
+	<!-- STYLES -->
+	<link rel="stylesheet" href="assets/css/common.css" />
+	<link rel="stylesheet" href="assets/css/my-module-1.css" />
+	<link rel="stylesheet" href="assets/css/my-module-2.css" />
 
-	<!-- LOAD APP -->
-	<link rel="stylesheet" href="assets/css/front-app.css" />
-	<script src="assets/js/front-app.js"></script>
+	<!-- SCRIPTS -->
+	<script src="assets/js/static-libs.js"></script>
+	<script src="assets/js/common.js"></script>
+	<script src="assets/js/my-module-1.js"></script>
+	<script src="assets/js/my-module-2.js"></script>
 <body>
 
 <!-- APP SCRIPTS -->
@@ -24,7 +27,8 @@
 	// Bootstraping main javascript app
 	requirejs(['src/myModule1/Main'], function (MainModule)
 	{
-		new MainModule.Main();
+		var app = new MainModule.Main();
+		console.log(app);
 	});
 </script>
 </body>

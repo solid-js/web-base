@@ -1,5 +1,5 @@
 
-export default class TestComponent
+export class TestComponent
 {
 	constructor ()
 	{

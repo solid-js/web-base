@@ -9,6 +9,7 @@ module.exports = function (grunt)
 	require('time-grunt')(grunt);
 	require('load-grunt-tasks')(grunt);
 
+
 	// ------------------------------------------------------------------------- GLOBAL CONFIG
 
 	// Init global config parameters
@@ -44,12 +45,14 @@ module.exports = function (grunt)
 			// Main typescript and less filename for modules
 			main			: 'Main',
 
+			// Where AMD modules are stored before concat
 			typescriptTemp	: '{= path.temp }typescript/',
 
 			// File selector targeting all typescript definition files
 			definitions		: './typescript-definitions/**/*.d.ts'
 		}
 	});
+
 
 	// ------------------------------------------------------------------------- CONFIG LOADER
 
@@ -67,13 +70,17 @@ module.exports = function (grunt)
 		'watch'
 	]);
 
+
 	// ------------------------------------------------------------------------- ASSET PACKER
 
-	var test =
+	// Overload grunt config with asset oriented files
+	require('./solid/grunt-assets-packer').load(grunt, [
 
 		// This file includes all static javascript dependencies
 		{
 			type: 'js',
+			name: 'libs',
+
 			dest: '{= path.deploy }assets/js/static-libs.js',
 			src: [
 				// AMD modules management with async define and requirejs statements
@@ -98,24 +105,6 @@ module.exports = function (grunt)
 				'{= path.lib }gsap/src/minified/easing/*.js',
 				'{= path.lib }gsap/src/minified/plugins/*.js'
 			]
-		};
-	// Overload grunt config with asset oriented files
-	require('./solid/grunt-assets-packer').load(grunt, [
-
-		// Common dependencies
-		{
-			type: 'module',
-			name: 'common',
-
-			// Output files
-			js: '{= path.deploy }assets/js/common.js',
-			css: '{= path.deploy }assets/css/common.css',
-
-			// Included folders
-			include: ['components/'],
-
-			// Include solidify AMD modules
-			includeAmd: ['solidify/']
 		},
 
 		// Package module 1
@@ -142,8 +131,30 @@ module.exports = function (grunt)
 
 			// Included folders
 			include: ['components/']
+		},
+
+		// Common dependencies
+		{
+			// Caveat :
+			// Common is declared after modules because we need to know app dependencies to include libs
+			// If you build common without previously built modules, libs dependencies will be missing
+
+			type: 'module',
+			name: 'common',
+
+			// Output files
+			js: '{= path.deploy }assets/js/common.js',
+			css: '{= path.deploy }assets/css/common.css',
+
+			// Included folders
+			include: ['components/'],
+
+			// Include solidify AMD modules
+			// By default, only direct module dependencies are included
+			includeAmd: ['lib/solidify/']
 		}
 	]);
+
 
 	// ------------------------------------------------------------------------- TASKS
 
