@@ -1,1 +1,0 @@
-"use strict";var JsonFiles=JsonFiles||{};define("src/myModule2/Main",["require","exports"],function(require,exports){var Main=function(){function Main(){console.log("OK module 2")}return Main}();Object.defineProperty(exports,"__esModule",{value:!0}),exports["default"]=Main});// 2016-01-06 05:01:36
