@@ -13,10 +13,10 @@ Dans l'ordre :
 
 ### Ce que le build doit gérer
 
-- Compilation typescript
-- Compilation less
-- Inclusion de fichiers JSON
-- Gestion des templates
+- OK Compilation typescript
+- OK Compilation less
+- OK Inclusion de fichiers JSON
+- OK Gestion des templates
 - Gestion du webserver de base pour les projets non PHP (et la pattern)
 - Gestion assemble (non PHP et pattern)
 - Gestion des sprites pixel

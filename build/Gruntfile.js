@@ -103,7 +103,14 @@ module.exports = function (grunt)
 				'{= path.lib }gsap/src/minified/TimelineLite.min.js',
 				'{= path.lib }gsap/src/minified/jquery.gsap.min.js',
 				'{= path.lib }gsap/src/minified/easing/*.js',
-				'{= path.lib }gsap/src/minified/plugins/*.js'
+				'{= path.lib }gsap/src/minified/plugins/*.js',
+
+				// React on window
+				'{= path.lib }react/react.js',
+				'{= path.lib }react/react-dom.js',
+
+				// Path React on __React
+				'{= path.lib }solidify/build/require-patch-react-scope.js'
 			]
 		},
 

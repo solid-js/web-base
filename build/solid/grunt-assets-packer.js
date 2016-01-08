@@ -47,7 +47,10 @@ module.exports = {
 		target: 'es5',
 
 		// Root dir for app (need to access to lib and src)
-		rootDir: '{= path.root }'
+		rootDir: '{= path.root }',
+
+		// Enable JSX support with react
+		jsx: 'react'
 	},
 
 	/**
@@ -76,6 +79,7 @@ module.exports = {
         var bundleEverythingOptimisedTasks = [];
 
 		// Get configuration
+		var rootDir = pGrunt.config.get('path.root');
 		var tempDir = pGrunt.config.get('path.temp');
 		var pathSrc = pGrunt.config.get('path.src');
 		var assetPackerMain = pGrunt.config.get('assetPacker.main');
@@ -150,7 +154,10 @@ module.exports = {
 					// Map Included TS files
 					currentConfig['include'].every(function (pIncludedPath)
 					{
-						includedTypescriptFiles.push(moduleRoot + '/' + pIncludedPath + '**/*.ts');
+						// Include TS and TSX files
+						var pathToInclude =  moduleRoot + '/' + pIncludedPath + '**/*';
+						includedTypescriptFiles.push(pathToInclude + '.ts');
+						includedTypescriptFiles.push(pathToInclude + '.tsx');
 					});
 
 					// Map included LESS files
@@ -170,10 +177,19 @@ module.exports = {
 				// Include AMD dependecies in this module
 				if ('includeAmd' in currentConfig)
 				{
-					// Map included A/D files
+					// Map included AMD files
 					currentConfig['includeAmd'].every(function (pIncludedPath)
 					{
 						includedAmdFiles.push(typescriptModulesBasePath + pIncludedPath + '**/*.js');
+
+						// Watch TS and TSX files
+						var pathToInclude = rootDir + pIncludedPath + '**/*';
+
+						// Add watch for those files
+						mergeConfig.watch[currentConfig.name + '-includeAmd'] = {
+							files: [pathToInclude + '.ts', pathToInclude + '.tsx'],
+							tasks: ['all']
+						};
 					});
 				}
 
@@ -205,7 +221,7 @@ module.exports = {
                 // ------------------------------------------------------------- SCRIPTS
 
 				mergeConfig.ts[currentConfig.name] = {
-					src: [assetPackerDefinitions, moduleRoot + '/' + assetPackerMain + '.ts'].concat(includedTypescriptFiles),
+					src: [assetPackerDefinitions, moduleRoot + '/' + assetPackerMain + '.ts', moduleRoot + '/' + assetPackerMain + '.tsx'].concat(includedTypescriptFiles),
 					dest: typescriptModulesBasePath,
 					options: module.exports.DEFAULT_TS_MODULE_OPTIONS
 				};
@@ -267,7 +283,7 @@ module.exports = {
 
                 // Script then concat from ts files
                 mergeConfig.watch[currentConfig.name + '-script'] = {
-                    files: [moduleRoot + '/**/*.ts'],
+                    files: [moduleRoot + '/**/*.ts', moduleRoot + '/**/*.tsx'],
                     tasks: [currentConfig.name + ':amd', currentConfig.name + ':concat']
                 };
 
