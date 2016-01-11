@@ -52,6 +52,7 @@ var defaultTsModuleOptions = {
 
 /**
  * TODO : Doc
+ * TODO : NPM
  */
 module.exports = function (pGrunt)
 {

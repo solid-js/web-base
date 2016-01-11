@@ -38,41 +38,40 @@ module.exports = function (grunt)
 
 			// Template files to be deployed
 			deploymentFiles	: './deployment/'
+		},
+
+		/**
+		 * Load grunt sub-configurations
+		 * To load an NPM package, add file and name if from the plugin name in the grunt-config folder see path.config)
+		 * Every NPM task will be automatically loaded if present in options.npm array.
+		 * Local have to be loaded with grunt.task.loadTasks call.
+		 * Please keep alphabetical order for readability.
+		 */
+		minimalConfig: {
+			// Load NPM tasks and config
+			npm: [
+				'autoprefixer',
+				'clean',
+				'concat',
+				'cssmin',
+				'deployer',
+				'handlebars',
+				'json',
+				'less',
+				'ts',
+				'uglify',
+				'watch'
+			],
+
+			// Load local tasks and config
+			local: [
+				'assetsPacker'
+			]
 		}
 	});
 
-
-	// ------------------------------------------------------------------------- CONFIG LOADER
-
-	/**
-	 * Load grunt sub-configurations
-	 * To load an NPM package, add file and name if from the plugin name in the grunt-config folder see path.config)
-	 * Every NPM task will be automatically loaded if present in options.npm array.
-	 * Local have to be loaded with grunt.task.loadTasks call.
-	 * Please keep alphabetical order for readability.
-	 */
-	require('./solid/grunt-config-loader')(grunt, {
-
-		// Load NPM tasks and config
-		npm: [
-			'autoprefixer',
-			'clean',
-			'concat',
-			'cssmin',
-			'handlebars',
-			'json',
-			'less',
-			'ts',
-			'uglify',
-			'watch'
-		],
-
-		// Load local tasks and config
-		local: [
-			'assetsPacker',
-			'deploy'
-		]
-	});
+	// Init grunt minimal config loader
+	grunt.loadNpmTasks('grunt-minimal-config');
 
 	// Load local grunt tasks after config is loaded
 	grunt.task.loadTasks('./grunt-tasks/');
@@ -81,5 +80,5 @@ module.exports = function (grunt)
 	// ------------------------------------------------------------------------- TASKS
 
 	// By default, compile all bundles and watch
-	grunt.registerTask('default', ['clean:all', 'deploy:local', 'all', 'watch']);
+	grunt.registerTask('default', ['clean:all', 'deployer:local', 'deploy:local', 'all', 'watch']);
 };

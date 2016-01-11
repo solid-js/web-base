@@ -5,7 +5,7 @@ module.exports = function (pGrunt)
 {
 	/**
 	 * TODO : doc
-	 * TODO : Push to NPM
+	 * TODO : NPM
 	 */
 	pGrunt.registerMultiTask('compileAmd', '', function ()
 	{
