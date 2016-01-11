@@ -33,6 +33,8 @@ Nous devons mixer les vues classiques et les vues React, les 2 ne servent pas à
 Nos vues classiques vont nous aider à créer des composants rapidement avec une DOM déjà posée par PHP.
 Les composants React vont plutôt servir a du full web-app.
 
+EDIT : Sûr ? Peut être 2 problématiques différentes, une de ciblage des éléments jQuery et une seconde de génération de contenu HTML dynamique.
+
 #### Vues classiques
 - Gestion des vues classiques avec séléction jQuery + évènements + Central.
 - L'idée ici est d'avoir des scripts instanciés depuis notre DOM

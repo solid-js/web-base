@@ -3,17 +3,17 @@
   "version": "0.2.0",
   "devDependencies": {
     "grunt": "latest",
-    "load-grunt-tasks": "latest",
-    "grunt-contrib-less": "latest",
     "grunt-autoprefixer": "latest",
-    "grunt-contrib-cssmin": "latest",
     "grunt-contrib-clean": "latest",
     "grunt-contrib-concat": "latest",
     "grunt-contrib-connect": "latest",
+    "grunt-contrib-cssmin": "latest",
     "grunt-contrib-handlebars": "latest",
+    "grunt-contrib-less": "latest",
     "grunt-contrib-uglify": "latest",
     "grunt-contrib-watch": "latest",
     "grunt-json": "latest",
+    "grunt-notify": "^0.4.3",
     "grunt-shell": "latest",
     "grunt-ts": "latest",
     "time-grunt": "latest"
@@ -22,7 +22,6 @@
     "grunt-assemble": "latest"
   },
   "scripts": {},
-  "dependencies": {
-  },
+  "dependencies": {},
   "private": true
 }

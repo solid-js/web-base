@@ -28,6 +28,11 @@ node_modules
 
 
 
+# Deployed files
+deploy/.htaccess
+deploy/specTestName.spec
+
+
 # Mac poops
 .DS_Store
 

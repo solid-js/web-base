@@ -1,10 +1,11 @@
 // Load the module name normalizer tool
-var moduleNameNormalizer = require('./module-name-normalizer');
+var moduleNameNormalizer = require('./utils/module-name-normalizer');
 
 module.exports = function (pGrunt)
 {
 	/**
 	 * TODO : doc
+	 * TODO : Push to NPM
 	 */
 	pGrunt.registerMultiTask('compileAmd', '', function ()
 	{
