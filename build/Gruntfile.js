@@ -56,6 +56,7 @@ module.exports = function (grunt)
 				'cssmin',
 				'deployer',
 				'handlebars',
+				'imagemin',
 				'json',
 				'less',
 				'ts',
@@ -80,5 +81,5 @@ module.exports = function (grunt)
 	// ------------------------------------------------------------------------- TASKS
 
 	// By default, compile all bundles and watch
-	grunt.registerTask('default', ['clean:all', 'deployer:local', 'deploy:local', 'all', 'watch']);
+	grunt.registerTask('default', ['clean:all', 'all', 'watch']);
 };
