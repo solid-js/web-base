@@ -25,6 +25,10 @@ Dans l'ordre :
 - Compression des assets (js / css / img)
 
 
+### Next release
+- Ajouter les notifications grunt
+
+
 ## Projet solidify
 
 ### Fonctionnalité vue solidify
