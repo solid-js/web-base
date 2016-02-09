@@ -6,7 +6,7 @@ module.exports = {
 				optimizationLevel: 5
 			},
 			files: {
-				'{= path.deploy }destination': '{= path.deploy }source'
+				//'{= path.deploy }destination': '{= path.deploy }source'
 			}
 		}
 	}
