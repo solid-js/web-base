@@ -8,7 +8,7 @@ module.exports = {
 			},
 
 			// Use ES5 strict mode
-			banner: '"use strict";\n\n',
+			banner: '\n\n',
 			separator: '\n'
 		}
 	}
