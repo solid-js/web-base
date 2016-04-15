@@ -8,7 +8,9 @@ module.exports = {
 			},
 
 			// Use ES5 strict mode
-			banner: '\n\n',
+			//banner: '"use strict"\n\n',
+
+			// Between each concatenated file
 			separator: '\n'
 		}
 	}

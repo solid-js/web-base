@@ -1,7 +1,5 @@
-
 /**
- * Overload grunt config with asset oriented files
- * TODO : Doc expliquand les tâches ajoutées et les options
+ * Overload grunt config with asset oriented files.
  */
 module.exports = {
 	config: {

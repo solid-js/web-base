@@ -1,63 +1,36 @@
-# TODO
-
-## Projet web-base
-
+# TODO web-base
 
 ### But du projet
 
-Dans l'ordre :
-- Pouvoir démarrer un projet front rapidement
-- Utilisation de composants solid (ts + less + json + hbs)
-- Génération de design pattern depuis les composants solid
+(Dans l'ordre)
+
+- Pouvoir démarrer un projet front **rapidement**
+- Imposer un workflow **fluide** et **documenté**
+- Utilisation de système de modules et de composants
+- Génération de design pattern depuis les modules / composants
 - Gestion des tests unitaires
-- Gestion d'un script make pour être conforme avec le process d'intégration continue
+- Gestion de plusieurs environnements (make / deployer)
+
 
 ### Ce que le build doit gérer
 
-- OK Compilation typescript
-- OK Compilation less
-- OK Inclusion de fichiers JSON
-- OK Gestion des templates
-- Gestion du webserver de base pour les projets non PHP (et la pattern)
-- Gestion assemble (non PHP et pattern)
+- **OK** Compilation **typescript** modulaire avec dépendances fortes / faibles
+- **OK** Compilation **less** modulaire avec dépendances fortes / faibles
+- **OK** Inclusion de fichiers JSON compilés
+- **OK** Gestion des templates
+- Génération d'une design pattern depuis les sources
+- Génération de site statique (non PHP et pattern)
 - Gestion des sprites pixel
 - Gestion des sprites vectos
 - Compression des assets (js / css / img)
+- Gestion des environnements (deployer)
+- Scafolding de modules
+- Scafolding de composant
 
+
+
+## Roadmap
 
 ### Next release
 - Ajouter les notifications grunt
 - Ajouter un plugin de génération de favicon [ticket](https://github.com/solid-js/web-base/issues/1)
-
-
-## Projet solidify
-
-### Fonctionnalité vue solidify
-
-Nous devons mixer les vues classiques et les vues React, les 2 ne servent pas à faire les mêmes choses.
-Nos vues classiques vont nous aider à créer des composants rapidement avec une DOM déjà posée par PHP.
-Les composants React vont plutôt servir a du full web-app.
-
-EDIT : Sûr ? Peut être 2 problématiques différentes, une de ciblage des éléments jQuery et une seconde de génération de contenu HTML dynamique.
-
-#### Vues classiques
-- Gestion des vues classiques avec séléction jQuery + évènements + Central.
-- L'idée ici est d'avoir des scripts instanciés depuis notre DOM
-- Génération de ces composants depuis la DOM et le script
-- Pas besoin de trucs de folie, juste les bons helpers
-- Librairie pour gérer la vie de ces composants (récupérer l'instance depuis la DOM, instancier, détruire, etc)
-- S'inspirer de la notion d'état de React
-- S'inspirer de la notion de props de React
-
-#### Vues react
-- Gestion des vues React pour de la génération full JS
-- Génération de ces composants depuis la DOM et le script
-- Doit aussi avoir les fonctionnalité de ciblage globales (helpers jQuery) mais pas locales (pas besoin de cibler dans le template, React fait ça très bien)
-- Doit pouvoir aussi gérer Central
-- Librairie pour gérer la vie de ces composants (récupérer l'instance depuis la DOM, instancier, détruire, etc)
-
-
-### Navigation, routage et controlleurs
-
-
-### Models

@@ -21,7 +21,7 @@ module.exports = function (grunt)
 		 * Important : please include trailing slash for all folders
 		 */
 		path: {
-			// Root folder (have to contain lib and src)
+			// Root folder (have to contains lib and src)
 			root			: '../',
 
 			// Path to the temp folder for asset packing processing

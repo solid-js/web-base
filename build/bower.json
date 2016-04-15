@@ -1,11 +1,10 @@
 {
   "name": "solidify-web-base",
-  "version": "0.2.0",
+  "version": "0.1.1",
   "dependencies": {
     "requirejs": "latest",
     "jquery": "latest",
     "gsap": "latest",
-    "knacss": "latest",
     "underscore": "latest",
     "handlebars": "latest",
     "q": ">1.0.0 <2.0",
