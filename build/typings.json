@@ -1,0 +1,9 @@
+{
+  "ambientDependencies": {
+    "greensock": "registry:dt/greensock#1.15.1+20160316155526",
+    "jquery": "registry:dt/jquery#1.10.0+20160316155526",
+    "q": "registry:dt/q#0.0.0+20160417152954",
+    "react": "registry:dt/react#0.14.0+20160412154040",
+    "react-dom": "registry:dt/react-dom#0.14.0+20160412154040"
+  }
+}

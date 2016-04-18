@@ -12,7 +12,7 @@ module.exports = {
 			typescriptTemp	: '{= path.temp }typescript/',
 
 			// File selector targeting all typescript definition files
-			definitions		: './typescript-definitions/**/*.d.ts'
+			definitions		: './typings/browser.d.ts'
 		},
 
 
@@ -30,9 +30,6 @@ module.exports = {
 
 				// JQUERY on window
 				'{= path.lib }jquery/dist/jquery.min.js',
-
-				// HANDLEBARS TEMPLATING on window
-				'{= path.lib }handlebars/handlebars.js',
 
 				// Q on window
 				'{= path.lib }q/q.js',
