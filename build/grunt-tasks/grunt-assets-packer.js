@@ -147,6 +147,7 @@ module.exports = function (pGrunt)
 
 					// Include styles
 					includedLessFiles.push(pathToInclude + '**/*.less');
+					includedLessFiles.push(pathToInclude + '*.less');
 				}
 			}
 
