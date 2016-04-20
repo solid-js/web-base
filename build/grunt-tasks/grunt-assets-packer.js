@@ -136,20 +136,18 @@ module.exports = function (pGrunt)
 			// If we have to include files that are not in the dependencies tree
 			if ('include' in currentConfig)
 			{
-				// Map Included TS files
-				currentConfig['include'].every(function (pIncludedPath)
+				for (var i in currentConfig['include'])
 				{
-					// Include TS and TSX files
-					var pathToInclude =  moduleRoot + '/' + pIncludedPath + '**/*';
+					// Compute link
+					var pathToInclude =  moduleRoot + '/' + currentConfig['include'][i] + '**/*';
+
+					// Include scripts
 					includedTypescriptFiles.push(pathToInclude + '.ts');
 					includedTypescriptFiles.push(pathToInclude + '.tsx');
-				});
 
-				// Map included LESS files
-				currentConfig['include'].every(function (pIncludedPath)
-				{
-					includedLessFiles.push(moduleRoot + '/' + pIncludedPath + '**/*.less');
-				});
+					// Include styles
+					includedLessFiles.push(pathToInclude + '**/*.less');
+				}
 			}
 
 			/**
