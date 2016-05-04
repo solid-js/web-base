@@ -205,7 +205,7 @@ module.exports = function (pGrunt)
 			// ----------------------------------------------------------------- SCRIPTS
 
 			mergeConfig.ts[moduleName] = {
-				src: [assetPackerDefinitions, moduleRoot + '/' + assetPackerMain + '.ts', moduleRoot + '/' + assetPackerMain + '.tsx'].concat(includedTypescriptFiles),
+				src: assetPackerDefinitions.concat([moduleRoot + '/' + assetPackerMain + '.ts', moduleRoot + '/' + assetPackerMain + '.tsx']).concat(includedTypescriptFiles),
 				dest: typescriptModulesBasePath,
 				options: defaultTsModuleOptions
 			};

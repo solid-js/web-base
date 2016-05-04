@@ -12,7 +12,13 @@ module.exports = {
 			typescriptTemp	: '{= path.temp }typescript/',
 
 			// File selector targeting all typescript definition files
-			definitions		: './typings/browser.d.ts'
+			definitions		: [
+				// Global definitions, loaded by TSD or "typings"
+				'./typings/browser.d.ts',
+
+				// Solidify definitions, only needed with solidify
+				'{= path.lib}solidify/definitions/*.d.ts'
+			]
 		},
 
 
