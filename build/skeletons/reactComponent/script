@@ -1,0 +1,39 @@
+import {React, ReactDom, ReactView} from "lib/solidify/core/ReactView";
+
+// ----------------------------------------------------------------------------- STRUCT
+
+interface Props extends __React.Props<any>
+{
+
+}
+
+interface States
+{
+
+}
+
+
+// ----------------------------------------------------------------------------- CLASS
+
+export class %%capitalComponentName%% extends ReactView<Props, States>
+{
+	// ------------------------------------------------------------------------- INIT
+
+	prepare ()
+	{
+
+	}
+
+
+	// ------------------------------------------------------------------------- RENDERING
+
+	render ()
+	{
+		return (
+			<div className="%%capitalComponentName%%">%%capitalComponentName%%</div>
+		);
+	}
+
+	// ------------------------------------------------------------------------- HANDLERS
+
+}

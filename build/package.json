@@ -19,7 +19,13 @@
 		"grunt-notify": "latest",
 		"grunt-shell": "latest",
 		"grunt-ts": "latest",
-		"time-grunt": "latest"
+		"time-grunt": "latest",
+
+		"inquirer": "latest",
+		"wrench": "latest",
+
+		"typings" : "latest",
+		"bower" : "latest"
 	},
 	"scripts": {},
 	"dependencies": {},
