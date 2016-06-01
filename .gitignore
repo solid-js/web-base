@@ -45,6 +45,7 @@ build/.tscache
 # Ignore build files
 build/temp/*
 build/typescript-definitions/*
+build/typings/*
 
 # Ignore bower dependecies
 lib/
