@@ -1,5 +1,5 @@
-module.exports = {
-	config: {
+module.exports = function () {
+	return {
 		options: {
 			// Remove all comments
 			stripBanners: {

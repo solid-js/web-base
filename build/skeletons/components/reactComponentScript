@@ -13,8 +13,6 @@ interface States
 }
 
 
-// ----------------------------------------------------------------------------- CLASS
-
 export class %%capitalComponentName%% extends ReactView<Props, States>
 {
 	// ------------------------------------------------------------------------- INIT

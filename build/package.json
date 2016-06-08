@@ -1,6 +1,6 @@
 {
 	"name": "solidify-web-base",
-	"version": "0.1.1",
+	"version": "0.2.0",
 	"devDependencies": {
 		"grunt": "latest",
 		"grunt-minimal-config": "latest",
@@ -10,7 +10,6 @@
 		"grunt-contrib-concat": "latest",
 		"grunt-contrib-connect": "latest",
 		"grunt-contrib-cssmin": "latest",
-		"grunt-contrib-handlebars": "latest",
 		"grunt-contrib-less": "latest",
 		"grunt-contrib-uglify": "latest",
 		"grunt-contrib-watch": "latest",
@@ -19,10 +18,7 @@
 		"grunt-notify": "latest",
 		"grunt-shell": "latest",
 		"grunt-ts": "latest",
-		"time-grunt": "latest",
-
-		"inquirer": "latest",
-		"wrench": "latest",
+		"grunt-scaff": "latest",
 
 		"typings" : "latest",
 		"bower" : "latest"

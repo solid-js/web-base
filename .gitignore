@@ -1,3 +1,40 @@
+
+# ------------------------------------------------------------------------------ DEPLOYED
+
+# Deployed files
+deploy/.htaccess
+deploy/specTestName.spec
+src/common/config/*
+
+# Deployed scripts
+deploy/assets/css/*
+deploy/assets/js/*
+
+
+# ------------------------------------------------------------------------------ BUILD AND POOPS
+
+# Mac poops
+.DS_Store
+
+# Typescript poops
+.baseDir.ts
+
+# Ignore typescript fast compile files
+build/.tscache
+
+# Ignore build files
+build/temp/*
+build/typings/*
+
+# Ignore bower dependecies
+lib/
+
+# Ignore ide files
+.idea
+
+
+# ------------------------------------------------------------------------------ GITHUB NODE DEFAULTS
+
 # Logs
 logs
 *.log
@@ -25,34 +62,3 @@ build/Release
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
-
-
-
-# Deployed files
-deploy/.htaccess
-deploy/specTestName.spec
-
-
-# Mac poops
-.DS_Store
-
-# Typescript poops
-.baseDir.ts
-
-# Ignore typescript fast compile files
-build/.tscache
-
-# Ignore build files
-build/temp/*
-build/typescript-definitions/*
-build/typings/*
-
-# Ignore bower dependecies
-lib/
-
-# Ignore ide files
-.idea
-
-# Deployed scripts
-deploy/assets/css/*
-deploy/assets/js/*

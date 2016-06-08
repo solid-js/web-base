@@ -3,11 +3,7 @@ var moduleNameNormalizer = require('./utils/module-name-normalizer');
 
 module.exports = function (pGrunt)
 {
-	/**
-	 * TODO : doc
-	 * TODO : NPM
-	 */
-	pGrunt.registerMultiTask('compileAmd', '', function ()
+	pGrunt.registerMultiTask('compileAmd', 'Compile modules to AMD', function ()
 	{
 		// Get the default var name
 		var varName = 'varName' in this.data ? this.data.varName : '__FILE';
@@ -52,16 +48,16 @@ module.exports = function (pGrunt)
 
 			// This looks like an amd define
 			if (
-				insertionIndex > firstIndex
-				&&
-				functionIndex > firstIndex
-				&&
-				insertionIndex > functionIndex
-				&&
-				dependenciesIndex >= firstIndex
-				&&
-				functionIndex > dependenciesIndex
-			)
+					insertionIndex > firstIndex
+					&&
+					functionIndex > firstIndex
+					&&
+					insertionIndex > functionIndex
+					&&
+					dependenciesIndex >= firstIndex
+					&&
+					functionIndex > dependenciesIndex
+				)
 			{
 				// Inject module name
 				newFileContent += fileContent.substring(0, firstIndex);
@@ -89,6 +85,6 @@ module.exports = function (pGrunt)
 		pGrunt.file.write(this.data.dest, newFileContent, { encoding: 'UTF-8' });
 
 		// Show our satisfaction
-		pGrunt.log.write(totalModules + ' modules patched :)');
+		pGrunt.log.oklns(totalModules + ' modules patched' + (totalModules > 0 ? ' :)' : ''));
 	});
 };

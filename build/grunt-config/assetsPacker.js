@@ -1,8 +1,8 @@
-/**
- * Overload grunt config with asset oriented files.
- */
-module.exports = {
-	config: {
+module.exports = function (grunt)
+{
+	// This grunt module is meant to overload grunt config with asset oriented files.
+
+	return {
 		options: {
 
 			// Main typescript and less filename for modules
@@ -28,6 +28,9 @@ module.exports = {
 
 			dest: '{= path.deploy }assets/js/static-libs.js',
 			src: [
+				// Patch ie console
+				'{= path.lib }solidify/build/patch-ie-console.js',
+
 				// AMD modules management with async define and requirejs statements
 				'{= path.lib }requirejs/require.js',
 
@@ -64,7 +67,7 @@ module.exports = {
 			css: '{= path.deploy }assets/css/my-module-1.css',
 
 			// Included folders
-			include: ['components/']
+			include: ['components/', 'pages/']
 		},
 
 		// Second module
@@ -75,12 +78,12 @@ module.exports = {
 			css: '{= path.deploy }assets/css/my-module-2.css',
 
 			// Included folders
-			include: ['components/']
+			include: ['components/', 'pages/']
 		},
 
 		// Common dependencies (will be loaded in src folder)
 		common: {
-			// Caveat :
+			// FIXME : issue
 			// Common is declared after modules because we need to know app dependencies to include libs
 			// If you build common without previously built modules, libs dependencies will be missing
 

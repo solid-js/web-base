@@ -1,5 +1,5 @@
-module.exports = {
-	config: {
+module.exports = function (grunt) {
+	return {
 		options: {
 			failOnTypeErrors: true,
 			preserveConstEnums: false,

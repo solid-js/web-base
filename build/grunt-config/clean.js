@@ -1,4 +1,6 @@
-module.exports = {
-	config: {
+module.exports = function ()
+{
+	return {
+		typescript: ['{= path.temp}/', '.tscache']
 	}
 };

@@ -20,19 +20,24 @@
 	<script src="assets/js/common.js"></script>
 	<script src="assets/js/my-module-1.js"></script>
 	<script src="assets/js/my-module-2.js"></script>
+</head>
 <body>
-<div id="appContainer">
+	<!-- APP DOM -->
+	<div class="AppContainer"></div>
 
-</div>
+	<!-- APP SCRIPTS -->
+	<script>
+		// Bootstraping main javascript app
+		requirejs(['src/myModule1/Main'], function (MainModule)
+		{
+			var app = new MainModule.Main({
+				// Target root node
+				root	: $('.AppContainer'),
 
-<!-- APP SCRIPTS -->
-<script>
-	// Bootstraping main javascript app
-	requirejs(['src/myModule1/Main'], function (MainModule)
-	{
-		var app = new MainModule.Main();
-		console.log(app);
-	});
-</script>
+				locale	: '',
+				base	: ''
+			});
+		});
+	</script>
 </body>
 </html>

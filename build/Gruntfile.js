@@ -5,9 +5,6 @@ module.exports = function (grunt)
 	// Change default delimiters
 	grunt.template.addDelimiters('config', '{', '}');
 
-	// Show durations in console
-	require('time-grunt')(grunt);
-
 	// Init global config parameters
 	grunt.config.init({
 
@@ -55,11 +52,11 @@ module.exports = function (grunt)
 				'concat',
 				'cssmin',
 				'deployer',
-				'handlebars',
 				'imagemin',
 				'json',
 				'less',
 				'ts',
+				'scaff',
 				'uglify',
 				'watch'
 			],

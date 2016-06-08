@@ -4,21 +4,6 @@ var moduleNameNormalizer = require('./utils/module-name-normalizer');
 // ----------------------------------------------------------------------------- DEFAULT OPTIONS
 
 /**
- * Default options for handlebars grunt config
- */
-var defaultHandlebarsModuleOptions= {
-
-	// Where are stored templates (injected var in window)
-	namespace: 'TemplateFiles',
-
-	// Use namespace for partials loading
-	partialsUseNamespace: true,
-
-	// Get only the filename without extension
-	processName: moduleNameNormalizer.processModuleAssetFilename
-};
-
-/**
  * Default options for JSON grunt config
  */
 var defaultJsonModuleOptions = {
@@ -50,14 +35,10 @@ var defaultTsModuleOptions = {
 };
 
 
-/**
- * TODO : Doc
- * TODO : NPM
- */
 module.exports = function (pGrunt)
 {
 	// The assetsPacker task is not allowed
-	pGrunt.registerMultiTask('assetsPacker', '', function ()
+	pGrunt.registerMultiTask('assetsPacker', 'Compile assets as bundled packages', function ()
 	{
 		pGrunt.fail.fatal('Calling task assetsPacker directly is not allowed. Every module is available as a new task. If you want to build a specific module, run the task directly like : moduleName:concat for example. Call the task `all` if you want to build all modules and `optimised` if you want all modules optimised for production');
 	});
@@ -91,11 +72,11 @@ module.exports = function (pGrunt)
 
 		// Used grunt plugins
 		ts: {},
-		handlebars: {},
 		json : {},
 		concat: {},
 		less: {},
 		autoprefixer: {},
+		cleanTsExtends: {},
 		uglify: {},
 		cssmin: {},
 		watch: {},
@@ -122,7 +103,6 @@ module.exports = function (pGrunt)
 			// Link to the compiled files in temp dir
 			var moduleRoot = pathSrc + moduleName;
 			var moduleTempDir = tempDir + moduleName;
-			var moduleTempTemplate = moduleTempDir + '/template.js';
 			var moduleTempJson = moduleTempDir + '/json.js';
 			var moduleTempAMD = moduleTempDir + '/amd.js';
 
@@ -184,18 +164,9 @@ module.exports = function (pGrunt)
 				src: moduleTempDir
 			};
 
-			// ----------------------------------------------------------------- TEMPLATES
-
-			// Include every template files
-			mergeConfig.handlebars[moduleName] = {
-				src: moduleRoot + '/**/*.hbs',
-				dest: moduleTempTemplate,
-				options: defaultHandlebarsModuleOptions
-			};
-
 			// ----------------------------------------------------------------- JSON
 
-			// Include every template files
+			// Include every JSON files
 			mergeConfig.json[moduleName] = {
 				src: moduleRoot + '/**/*.json',
 				dest: moduleTempJson,
@@ -219,7 +190,7 @@ module.exports = function (pGrunt)
 
 			// Concat bundle files
 			mergeConfig.concat[moduleName] = {
-				src: [moduleTempTemplate, moduleTempJson, moduleTempAMD],
+				src: [moduleTempJson, moduleTempAMD],
 				dest: currentConfig.js
 			};
 
@@ -239,6 +210,12 @@ module.exports = function (pGrunt)
 
 			// ----------------------------------------------------------------- OPTIMISING
 
+			// Typescript extends cleaner
+			mergeConfig.cleanTsExtends[moduleName] = {
+				src: currentConfig.js,
+				dest: currentConfig.js
+			};
+
 			// Javascript obfuscation
 			mergeConfig.uglify[moduleName] = {
 				src: currentConfig.js,
@@ -252,12 +229,6 @@ module.exports = function (pGrunt)
 			};
 
 			// ----------------------------------------------------------------- WATCH
-
-			// Template then concat from hbs files
-			mergeConfig.watch[moduleName + '-template'] = {
-				files: [moduleRoot + '/**/*.hbs'],
-				tasks: [moduleName + ':template', moduleName + ':concat']
-			};
 
 			// Json then concat from json files
 			mergeConfig.watch[moduleName + '-json'] = {
@@ -283,11 +254,6 @@ module.exports = function (pGrunt)
 			 * Compile scripts to temp dir
 			 */
 
-				// Compile templates
-			pGrunt.registerTask(moduleName + ':template', [
-				'handlebars:' + moduleName
-			]);
-
 			// Compile JSON
 			pGrunt.registerTask(moduleName + ':json', [
 				'json:' + moduleName
@@ -303,14 +269,13 @@ module.exports = function (pGrunt)
 			 * Publish scripts to output
 			 */
 
-				// Concat compiled scripts (templates / json / amd from temp to output)
+			// Concat compiled scripts (json / amd from temp to output)
 			pGrunt.registerTask(moduleName + ':concat', [
 				'concat:' + moduleName
 			]);
 
 			// Compile scripts and concat them
 			pGrunt.registerTask(moduleName + ':script', [
-				moduleName + ':template',
 				moduleName + ':json',
 				moduleName + ':amd',
 				moduleName + ':concat'
@@ -325,7 +290,7 @@ module.exports = function (pGrunt)
 			/**
 			 * Register task for everything in this bundle
 			 * 1. Cleaning temp dir
-			 * 2. Templates / Json / Typescript / AMD
+			 * 2. Json / Typescript / AMD
 			 * 3. Concat scripts to output
 			 * 4. Styles to output
 			 */
@@ -337,6 +302,7 @@ module.exports = function (pGrunt)
 			// Everything in bundle + optimise script and style for production
 			pGrunt.registerTask(moduleName + ':optimised', [
 				moduleName,
+				'cleanTsExtends:' + moduleName,
 				'uglify:' + moduleName,
 				'cssmin:' + moduleName
 			]);
@@ -357,6 +323,12 @@ module.exports = function (pGrunt)
 					dest: currentConfig.dest
 				};
 
+				// Typescript extends cleaner
+				mergeConfig.cleanTsExtends[moduleName] = {
+					src: currentConfig.dest,
+					dest: currentConfig.dest
+				};
+
 				// Javascript obfuscation
 				mergeConfig.uglify[moduleName] = {
 					src: currentConfig.dest,
@@ -371,6 +343,7 @@ module.exports = function (pGrunt)
 				// Compile script and optimise
 				pGrunt.registerTask(moduleName + ':optimised', [
 					moduleName,
+					'cleanTsExtends:' + moduleName,
 					'uglify:' + moduleName
 				]);
 			}

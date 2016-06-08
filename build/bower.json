@@ -1,6 +1,6 @@
 {
   "name": "solidify-web-base",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "dependencies": {
     "requirejs": "latest",
     "jquery": "latest",
@@ -8,6 +8,7 @@
     "underscore": "latest",
     "handlebars": "latest",
     "q": ">1.0.0 <2.0",
+		"solidify" : "latest",
     "normalize-css": "normalize.css#~3.0.3",
     "react": "~0.14.6"
   }
