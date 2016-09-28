@@ -11,5 +11,5 @@ TODO : Lister les dépendances, peut être faire un fichier 2-dependencies.md ?
 3. Install bower dependencies for our application
 	- `bower install`
 4. Install typescript definitions to have auto-completion and error checking
-	- `tsd install`
+	- `typings install`
 
