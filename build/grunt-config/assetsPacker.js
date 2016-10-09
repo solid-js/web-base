@@ -28,6 +28,9 @@ module.exports = function (grunt)
 
 			dest: '{= path.deploy }assets/js/static-libs.js',
 			src: [
+				// GRAPNEL routing system, BEFORE require else it will crash because of define.amd one more time ...
+				'{= path.lib }grapnel/dist/grapnel.min.js',
+
 				// Patch ie console
 				'{= path.lib }solidify/build/patch-ie-console.js',
 

@@ -17,6 +17,12 @@ interface IMyModule1Params extends IAppParams
 	locale				:any;
 }
 
+// App routing interface
+export interface IRouter
+{
+	home: () => void;
+	product: (productId: number) => void;
+}
 
 // Our app is extending solidify default app.
 // Please take a look at the App class to understand how it works.
@@ -81,7 +87,46 @@ export class Main extends App<IMyModule1Params>
 	 */
 	initRoutes ():void
 	{
+		// Router example
 
+		/*
+		// Create inverse router
+		Config.instance.inject({
+			router: {
+				home: () =>
+				{
+					this._router.navigate('');
+				},
+				product: (productId:number) =>
+				{
+					this._router.navigate('product/' + productId);
+				}
+			} as IRouter
+		});
+
+		// Create router
+		this._router = new Grapnel({
+			pushState : true,
+			root: this._params.base + '/'
+		});
+
+		// Map Routes
+		this._router.get('/', (pReq:IGrapnelRequest, pEvent:GrapnelEvent) =>
+		{
+			// -> show home
+			pEvent.stopPropagation();
+		});
+		this._router.get('product/:productId', (pReq:IGrapnelRequest, pEvent:GrapnelEvent) =>
+		{
+			// -> show product page
+			pEvent.stopPropagation();
+		});
+		this._router.get('*', (pReq:IGrapnelRequest, pEvent:GrapnelEvent) =>
+		{
+			// -> show 404
+			console.log('404', pReq.params);
+		});
+		*/
 	}
 
 
