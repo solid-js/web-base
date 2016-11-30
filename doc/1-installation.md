@@ -23,5 +23,6 @@
 3. Unzip content in `trunk` folder
 
 
-[TODO] Ajouter un paragraphe sur la sync avec le nouveau serveur git.
-[TODO] Suppression du .git plus claire.
+- [TODO] Ajouter un paragraphe sur la sync avec le nouveau serveur git.
+- [TODO] Suppression du .git plus claire.
+- [TODO] Présenter les deux méthodes (on git clone et on mv le .git ou alors on git add remote)
