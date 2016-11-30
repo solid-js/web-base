@@ -19,9 +19,9 @@ With your regular user, no sudo.
 	- `cd build`
 2. Install NPM dependencies for building purpose.
 	- `npm install`
-3. Install bower dependencies for our application
+3. Install front-end dependencies for our application.
 	- `bower install`
-4. Install typescript definitions to have auto-completion and error checking
+4. Install latest typescript definitions to have auto-completion and error checking.
 	- `typings install`
 
 
