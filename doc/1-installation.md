@@ -1,6 +1,7 @@
 # 1. Installation
 
-TODO : Présentation du principe de scafolding
+
+[TODO] : Présentation du principe de scafolding
 
 
 ### How to scafold a new web-base project ?
