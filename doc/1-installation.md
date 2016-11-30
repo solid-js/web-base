@@ -21,3 +21,7 @@
 1. Create an empty `trunk` folder and browse in this folder
 2. Download latest **web-base** [here](https://github.com/solid-js/web-base/archive/master.zip)
 3. Unzip content in `trunk` folder
+
+
+[TODO] Ajouter un paragraphe sur la sync avec le nouveau serveur git.
+[TODO] Suppression du .git plus claire.
