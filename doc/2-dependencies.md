@@ -1,7 +1,7 @@
 # 2. Install dependencies
 
 
-##### You'll need those node modules installed globally :
+## You'll need those node modules installed globally :
 
 - Grunt-cli, console interface for grunt task runner. Allows you to launch build commands.
 	- `sudo npm i -g grunt-cli`
@@ -11,7 +11,7 @@
 	- `sudo npm i -g typings`
 
 
-##### Install dependencies
+## Install dependencies
 
 With your regular user, no sudo.
 
