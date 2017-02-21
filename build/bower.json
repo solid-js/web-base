@@ -1,16 +1,17 @@
 {
-  "name": "solidify-web-base",
-  "version": "0.2.0",
-  "dependencies": {
-    "requirejs": "latest",
-    "jquery": "latest",
-    "gsap": "latest",
-    "underscore": "latest",
-    "handlebars": "latest",
-    "q": ">1.0.0 <2.0",
+	"name": "solidify-web-base",
+	"version": "0.3.0",
+	"dependencies": {
 		"solidify" : "latest",
-    "normalize-css": "normalize.css#~3.0.3",
-    "react": "~0.14.6",
-    "grapnel" : "latest"
-  }
+
+		"requirejs": "latest",
+		"jquery": "latest",
+		"gsap": "latest",
+		"q": ">1.0.0 <2.0",
+		"normalize-css": "normalize.css#~3.0.3",
+
+		"react": "~0.14.6",
+		"gsap-pixi-plugin": "https://github.com/noprotocol/gsap-pixi-plugin.git#^0.1.0",
+		"jquery-mousewheel": "https://github.com/jquery/jquery-mousewheel.git#^3.1.13"
+	}
 }

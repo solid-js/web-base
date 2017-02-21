@@ -5,7 +5,7 @@ module.exports = function (grunt)
 	return {
 		options: {
 
-			// Main typescript and less filename for modules
+			// Main typescript and less filename for apps
 			main			: 'Main',
 
 			// Where AMD modules are stored before concat
@@ -28,20 +28,14 @@ module.exports = function (grunt)
 
 			dest: '{= path.deploy }assets/js/static-libs.js',
 			src: [
-				// GRAPNEL routing system, BEFORE require else it will crash because of define.amd one more time ...
-				'{= path.lib }grapnel/dist/grapnel.min.js',
-
 				// Patch ie console
 				'{= path.lib }solidify/build/patch-ie-console.js',
 
-				// AMD modules management with async define and requirejs statements
-				'{= path.lib }requirejs/require.js',
-
-				// define.amd is disabled so helpers libs like jQuery and handlebars are available in window scope, without require them
-				'{= path.lib }solidify/build/require-disable-AMD.js',
-
 				// JQUERY on window
 				'{= path.lib }jquery/dist/jquery.min.js',
+
+				// JQUERY MouseWheel plugin
+				'{= path.lib }jquery-mousewheel/jquery.mousewheel.js',
 
 				// Q on window
 				'{= path.lib }q/q.js',
@@ -53,32 +47,39 @@ module.exports = function (grunt)
 				'{= path.lib }gsap/src/minified/easing/*.js',
 				'{= path.lib }gsap/src/minified/plugins/*.js',
 
-				// React on window
+				// [option] PIXI GSAP Plugin
+				//'{= path.lib }gsap-pixi-plugin/PixiPlugin.js',
+
+				// [option] React on window
 				'{= path.lib }react/react.js',
 				'{= path.lib }react/react-dom.js',
 
-				// Path React on __React
-				'{= path.lib }solidify/build/require-patch-react-scope.js'
+				// [option] Path React on __React
+				'{= path.lib }solidify/build/require-patch-react-scope.js',
+
+				// AMD modules management with async define and requirejs statements
+				// We load require after so every lib loaded before is on window ;)
+				'{= path.lib }requirejs/require.js'
 			]
 		},
 
-		// First module, the name is important, it will be loaded in src folder following this name
-		myModule1: {
+		// First app, the name is important, it will be loaded in src folder following this name
+		myApp1: {
 
 			// Output files
-			js: '{= path.deploy }assets/js/my-module-1.js',
-			css: '{= path.deploy }assets/css/my-module-1.css',
+			js: '{= path.deploy }assets/js/my-app-1.js',
+			css: '{= path.deploy }assets/css/my-app-1.css',
 
 			// Included folders
 			include: ['components/', 'pages/']
 		},
 
-		// Second module
-		myModule2: {
+		// Second app
+		myApp2: {
 
 			// Output files
-			js: '{= path.deploy }assets/js/my-module-2.js',
-			css: '{= path.deploy }assets/css/my-module-2.css',
+			js: '{= path.deploy }assets/js/my-app-2.js',
+			css: '{= path.deploy }assets/css/my-app-2.css',
 
 			// Included folders
 			include: ['components/', 'pages/']
@@ -87,8 +88,8 @@ module.exports = function (grunt)
 		// Common dependencies (will be loaded in src folder)
 		common: {
 			// FIXME : issue
-			// Common is declared after modules because we need to know app dependencies to include libs
-			// If you build common without previously built modules, libs dependencies will be missing
+			// Common is declared after apps because we need to know app dependencies to include libs
+			// If you build common without previously build apps, libs dependencies will be missing
 
 			// Output files
 			js: '{= path.deploy }assets/js/common.js',

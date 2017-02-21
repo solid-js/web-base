@@ -17,11 +17,19 @@ export class %%capitalComponentName%% extends JView
 	// ------------------------------------------------------------------------- INIT
 
 	/**
+	 * Prepare dependencies with DependencyManager
+	 */
+	protected prepareDependencies ()
+	{
+	    // Remove this method if not used
+	}
+
+	/**
 	 * Target our root if not already defined via constructor params
 	 */
 	protected targetRoot ()
 	{
-
+        // Remove this method if not used
 	}
 
 	/**
@@ -29,7 +37,7 @@ export class %%capitalComponentName%% extends JView
 	 */
 	protected prepareNodes ()
 	{
-
+        // Remove this method if not used
 	}
 
 	/**
@@ -37,7 +45,7 @@ export class %%capitalComponentName%% extends JView
 	 */
 	protected prepareEvents ()
 	{
-
+        // Remove this method if not used
 	}
 
 	/**
@@ -45,7 +53,15 @@ export class %%capitalComponentName%% extends JView
 	 */
 	protected afterInit ()
 	{
+        // Remove this method if not used
+	}
 
+	/**
+	 * Init sub-components after init
+	 */
+	protected initComponents ()
+	{
+        // Remove this method if not used
 	}
 
 	// ------------------------------------------------------------------------- HANDLERS

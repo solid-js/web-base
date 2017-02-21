@@ -5,35 +5,39 @@ module.exports = function (grunt)
 
 			// Files we need to process
 			files: [
+				// Example for .htaccess file
 				/*
 				{
-					src: '{= path.deploymentFiles }.htaccess',
+					src: '{= path.skeletons }deployment/.htaccess',
 					dest: '{= path.deploy }.htaccess'
 				},
 				*/
 
 				// Example with dynamic file name
 				/*{
-					src: '{= path.deploymentFiles }.spec',
+					src: '{= path.skeletons }deployment/.spec',
 					dest: '{= path.deploy }%%specName%%.spec'
 				},*/
 
 				// Copy informations as config.json
 				// Version number is injected
 				{
-					src: '{= path.deploymentFiles }config.json',
+					src: '{= path.skeletons }deployment/config.json',
 					dest: '{= path.src }common/config/App.json'
 				}
 			],
 
 			// Auto-incremented version file
-			versionFile: '{= path.deploymentFiles }version',
+			versionFile: '{= path.skeletons }deployment/version',
 
 			// Common properties for all targets
 			properties: {
-
+				debug: true
 			}
 		},
+
+		// This task is only here to bump version but does deploy anything
+		increment: { },
 
 		// Deploy local - grunt deployer:local
 		local: {
@@ -42,17 +46,19 @@ module.exports = function (grunt)
 			}
 		},
 
-		// Deploy pre-production - grunt deployer:preprod
-		preprod: {
+		// Deploy for staging - grunt deployer:staging
+		staging: {
 			properties: {
-				env: 'preprod'
+				env: 'staging',
+				//debug: false
 			}
 		},
 
-		// Deploy for production - grunt deployer:prod
-		prod: {
+		// Deploy for production - grunt deployer:production
+		production: {
 			properties: {
-				env: 'prod'
+				env: 'production',
+				debug: false
 			}
 		}
 	}

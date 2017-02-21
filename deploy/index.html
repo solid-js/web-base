@@ -18,8 +18,8 @@
 	<!-- SCRIPTS -->
 	<script src="assets/js/static-libs.js"></script>
 	<script src="assets/js/common.js"></script>
-	<script src="assets/js/my-module-1.js"></script>
-	<script src="assets/js/my-module-2.js"></script>
+	<script src="assets/js/my-app-1.js"></script>
+	<script src="assets/js/my-app-2.js"></script>
 </head>
 <body>
 	<!-- APP DOM -->
@@ -28,7 +28,7 @@
 	<!-- APP SCRIPTS -->
 	<script>
 		// Bootstraping main javascript app
-		requirejs(['src/myModule1/Main'], function (MainModule)
+		requirejs(['src/myApp1/Main'], function (MainModule)
 		{
 			var app = new MainModule.Main({
 				// Target root node

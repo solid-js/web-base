@@ -1,4 +1,4 @@
-import {React, ReactDom, ReactView} from "lib/solidify/core/ReactView";
+import {React, ReactDom, ReactView} from "lib/solidify/react/ReactView";
 
 // ----------------------------------------------------------------------------- STRUCT
 

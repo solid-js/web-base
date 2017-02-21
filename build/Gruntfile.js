@@ -33,8 +33,8 @@ module.exports = function (grunt)
 			// Path to the deploy (output files pushed to the server)
 			deploy			: '../deploy/',
 
-			// Template files to be deployed
-			deploymentFiles	: './deployment/'
+			// Skeletons files to be scaffold or deployed
+			skeletons		: './skeletons/'
 		},
 
 		/**

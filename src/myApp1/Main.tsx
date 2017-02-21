@@ -1,11 +1,11 @@
-/// <reference path="../../lib/solidify/definitions/grapnel.d.ts" />
 /// <reference path="../../lib/solidify/definitions/globalScope.d.ts" />
 
 import {DependencyManager, IModulePathStorage} from "../../lib/solidify/helpers/DependencyManager";
 import {App} from "../../lib/solidify/core/App";
 import {IAppParams} from "../../lib/solidify/core/App";
-import {ReactView, React, ReactDom} from "../../lib/solidify/core/ReactView";
+import {ReactView, React, ReactDom} from "../../lib/solidify/react/ReactView";
 import {Config} from "../../lib/solidify/core/Config";
+import ReactDOM = __React.ReactDOM;
 
 // ----------------------------------------------------------------------------- STRUCT
 
@@ -17,13 +17,6 @@ interface IMyModule1Params extends IAppParams
 	locale				:any;
 }
 
-// App routing interface
-export interface IRouter
-{
-	home: () => void;
-	product: (productId: number) => void;
-}
-
 // Our app is extending solidify default app.
 // Please take a look at the App class to understand how it works.
 
@@ -32,9 +25,20 @@ export class Main extends App<IMyModule1Params>
 	// ------------------------------------------------------------------------- INIT
 
 	/**
+	 * Init app config
+	 */
+	protected initConfig ()
+	{
+		// Inject deployed JSON config
+		Config.instance.inject(
+			JsonFiles['src/common/config/App']
+		);
+	}
+
+	/**
 	 * Init module path declarations.
 	 */
-	initModules ()
+	protected initModules ()
 	{
 		// Register common dependencies
 		this._dependencyManager.registerModulePath('component', 'src/common/components/');
@@ -50,7 +54,7 @@ export class Main extends App<IMyModule1Params>
 	/**
 	 * Init app dependencies.
 	 */
-	initDependencies ():void
+	protected initDependencies ():void
 	{
 		// Register the app instance
 		this._dependencyManager.registerInstance('myModule1', this);
@@ -80,53 +84,12 @@ export class Main extends App<IMyModule1Params>
 
 	// ------------------------------------------------------------------------- ROUTES
 
-	protected _router		:Grapnel;
-
 	/**
 	 * Init routes system
 	 */
 	initRoutes ():void
 	{
-		// Router example
 
-		/*
-		// Create inverse router
-		Config.instance.inject({
-			router: {
-				home: () =>
-				{
-					this._router.navigate('');
-				},
-				product: (productId:number) =>
-				{
-					this._router.navigate('product/' + productId);
-				}
-			} as IRouter
-		});
-
-		// Create router
-		this._router = new Grapnel({
-			pushState : true,
-			root: this._params.base + '/'
-		});
-
-		// Map Routes
-		this._router.get('/', (pReq:IGrapnelRequest, pEvent:GrapnelEvent) =>
-		{
-			// -> show home
-			pEvent.stopPropagation();
-		});
-		this._router.get('product/:productId', (pReq:IGrapnelRequest, pEvent:GrapnelEvent) =>
-		{
-			// -> show product page
-			pEvent.stopPropagation();
-		});
-		this._router.get('*', (pReq:IGrapnelRequest, pEvent:GrapnelEvent) =>
-		{
-			// -> show 404
-			console.log('404', pReq.params);
-		});
-		*/
 	}
 
 
@@ -134,11 +97,6 @@ export class Main extends App<IMyModule1Params>
 
 	ready ()
 	{
-		// Access to app config
-		//Config.getAll<IMyModule1Params>().env
 
-		// Access deployed config, version number and env
-		// Deploy with `grunt deployer:local`
-		console.log('Config', JsonFiles['src/common/config/App']);
 	}
 }

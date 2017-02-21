@@ -1,6 +1,11 @@
 module.exports = function ()
 {
 	return {
-		typescript: ['{= path.temp}/', '.tscache']
+		// Delete typescript poops
+		typescript: [
+			'{= path.temp}/',
+			'.tscache',
+			'tscommand*'
+		]
 	}
 };
