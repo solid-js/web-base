@@ -1,5 +1,6 @@
 
-# ------------------------------------------------------------------------------ DEPLOYED
+
+# ------------------------------------------------------------------------------ DEPLOYED FILES
 
 # Deployed files
 deploy/.htaccess
@@ -14,28 +15,31 @@ deploy/app/configs/app.yml
 deploy/app/vendor/*
 
 
-# ------------------------------------------------------------------------------ BUILD AND POOPS
-
-# Mac poops
-.DS_Store
-
-# Typescript poops
-.baseDir.ts
+# ------------------------------------------------------------------------------ BUILD AND LIBS
 
 # Ignore typescript fast compile files
 build/.tscache
 
-# Typescript poops
+# Ignore typescript command files
 build/tscommand*
 
 # Ignore build files
 build/temp/*
 
 # Do not ignore typings definitions
+# Typings are included on purpose
 #build/typings/*
 
 # Ignore bower dependecies
 lib/
+
+# ------------------------------------------------------------------------------ POOPS
+
+# Mac poops
+.DS_Store
+
+# Typescript poops
+.baseDir.ts
 
 # Ignore ide files
 .idea

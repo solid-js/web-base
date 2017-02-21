@@ -1,9 +1,7 @@
 # 1. Installation
 
-TODO : Présentation du principe de scafolding
 
-
-### How to scafold a new web-base project ?
+## How to install a new web-base project ?
 
 
 #### a) With Git:
@@ -20,3 +18,11 @@ TODO : Présentation du principe de scafolding
 1. Create an empty `trunk` folder and browse in this folder
 2. Download latest **web-base** [here](https://github.com/solid-js/web-base/archive/master.zip)
 3. Unzip content in `trunk` folder
+
+
+
+## Sync the project on your git server 
+
+- [TODO] Ajouter un paragraphe sur la sync avec le nouveau serveur git.
+- [TODO] Suppression du .git plus claire.
+- [TODO] Présenter les deux méthodes (on git clone et on mv le .git ou alors on git add remote)
