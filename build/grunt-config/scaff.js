@@ -51,6 +51,32 @@ module.exports = function (grunt)
 			}
 		},
 
+		// Scaffolder for a solid react page
+		reactPage: {
+			options: {
+				questions: [
+					// In which module do we have to create the new component ?
+					{
+						name: 'moduleName',
+						type: 'input',
+						message: 'Module name (lowerCamelCase please) :'
+					},
+
+					// What is the component name ?
+					{
+						name: 'componentName',
+						type: 'input',
+						message: 'React page name (lowerCamelCase please) :'
+					}
+				],
+				filter: filter,
+				template: {
+					'skeletons/components/componentStyle': '{= path.src }%%moduleName%%/pages/%%componentName%%/%%capitalComponentName%%.less',
+					'skeletons/components/reactPageScript': '{= path.src }%%moduleName%%/pages/%%componentName%%/%%capitalComponentName%%.tsx'
+				}
+			}
+		},
+
 		// Scaffolder for a solid jquery component
 		jqueryComponent: {
 			options: {
