@@ -95,6 +95,9 @@ export class Main extends App<IMyModule1Params>
 
 	// ------------------------------------------------------------------------- READY
 
+	/**
+	 * When everything is ready
+	 */
 	ready ()
 	{
 
