@@ -6,6 +6,7 @@ import {IAppParams} from "../../lib/solidify/core/App";
 import {ReactView, React, ReactDom} from "../../lib/solidify/react/ReactView";
 import {Config} from "../../lib/solidify/core/Config";
 import ReactDOM = __React.ReactDOM;
+import {Router} from "../../lib/solidify/navigation/Router";
 
 // ----------------------------------------------------------------------------- STRUCT
 
@@ -78,7 +79,7 @@ export class Main extends App<IMyModule1Params>
 	 */
 	protected initAppView ():void
 	{
-		//this._appView = ReactDom.render( <MyAppView />, this._params.root[0] ) as MyAppView;
+		//this._appView = ReactDom.render( <MyAppView />, this._matchingParameter.root[0] ) as MyAppView;
 	}
 
 
@@ -89,7 +90,37 @@ export class Main extends App<IMyModule1Params>
 	 */
 	initRoutes ():void
 	{
+		// Init router
+		// Google analytics is automatically called when page is chaning
+		let router = new Router(
+			this._params.base,
+			[
+				// -- Home page
+				{
+					url		: '/',
+					page	: 'HomePage'
+				},
 
+				// -- Product pages
+				{
+					url		: '/products/',
+					page	: 'ProductPage',
+					action	: 'overview'
+				},
+				{
+					url		: '/products/{id}.html',
+					page	: 'ProductPage',
+					action	: 'product'
+				}
+			]
+		);
+
+		// Enable auto link listening
+		router.listenLinks();
+
+		// Register mainStack
+		// This stack will receive NotFoundPage if no matching route is found
+		//router.registerStack('main', stackInstance);
 	}
 
 
@@ -100,6 +131,7 @@ export class Main extends App<IMyModule1Params>
 	 */
 	ready ()
 	{
-
+		// Start router when ready
+		Router.instance.start();
 	}
 }

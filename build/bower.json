@@ -1,6 +1,6 @@
 {
 	"name": "solidify-web-base",
-	"version": "0.3.1",
+	"version": "0.3.2",
 	"dependencies": {
 		"solidify" : "latest",
 
