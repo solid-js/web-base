@@ -4,7 +4,7 @@
 
 # Deployed files
 deploy/.htaccess
-src/common/config/*
+src/common/config/App.json
 
 # Deployed scripts
 deploy/assets/css/*
