@@ -25,8 +25,10 @@ module.exports = function (grunt)
 		// This file includes all static javascript dependencies
 		libs: {
 			type: 'js',
-
 			dest: '{= path.deploy }assets/js/static-libs.js',
+
+			// Use array to use different files for regular and optimised targets.
+			// First index will be regular and second will be optimised.
 			src: [
 				// Patch ie console
 				'{= path.lib }solidify/build/patch-ie-console.js',
@@ -51,8 +53,14 @@ module.exports = function (grunt)
 				//'{= path.lib }gsap-pixi-plugin/PixiPlugin.js',
 
 				// [option] React on window
-				'{= path.lib }react/react.js',
-				'{= path.lib }react/react-dom.js',
+				[
+					'{= path.lib }react/react.js',
+					'{= path.lib }react/react.min.js'
+				],
+				[
+					'{= path.lib }react/react-dom.js',
+					'{= path.lib }react/react-dom.min.js'
+				],
 
 				// [option] Path React on __React
 				'{= path.lib }solidify/build/require-patch-react-scope.js',

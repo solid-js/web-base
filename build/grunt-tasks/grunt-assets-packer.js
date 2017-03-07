@@ -317,11 +317,38 @@ module.exports = function (pGrunt)
 			// JS
 			if (currentConfig.type == 'js')
 			{
-				// Concat bundle files
+				// Get regular and optimised sources
+				var regularSrc = [];
+				var optimisedSrc = [];
+				for (var u in currentConfig.src)
+				{
+					// If this is an array, we have regular and optimised
+					if (Array.isArray( currentConfig.src[u] ))
+					{
+						regularSrc.push( currentConfig.src[u][0] );
+						optimisedSrc.push( currentConfig.src[u][1] );
+					}
+
+					// Else this is the same source for regular and optimised
+					else
+					{
+						regularSrc.push( currentConfig.src[u] );
+						optimisedSrc.push( currentConfig.src[u] );
+					}
+				}
+
+				// Concat bundle files - regular -
 				mergeConfig.concat[moduleName] = {
-					src: currentConfig.src,
+					src: regularSrc,
 					dest: currentConfig.dest
 				};
+
+				// Concat bundle files - optimised -
+				mergeConfig.concat[moduleName+'-optimised'] = {
+					src: optimisedSrc,
+					dest: currentConfig.dest
+				};
+
 
 				// Typescript extends cleaner
 				mergeConfig.cleanTsExtends[moduleName] = {
@@ -342,7 +369,7 @@ module.exports = function (pGrunt)
 
 				// Compile script and optimise
 				pGrunt.registerTask(moduleName + ':optimised', [
-					moduleName,
+					'concat:' + moduleName + '-optimised',
 					'cleanTsExtends:' + moduleName,
 					'uglify:' + moduleName
 				]);

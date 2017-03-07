@@ -1,6 +1,6 @@
 {
 	"name": "solidify-web-base",
-	"version": "0.3.6",
+	"version": "0.3.7",
 	"devDependencies": {
 		"grunt": "latest",
 		"grunt-minimal-config": "latest",
