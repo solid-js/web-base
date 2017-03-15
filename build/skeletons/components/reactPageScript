@@ -6,18 +6,13 @@ import {
 
 // ----------------------------------------------------------------------------- STRUCT
 
-interface Props extends ReactPageProps
-{
-
-}
-
 interface States
 {
 
 }
 
 
-export class %%capitalComponentName%% extends ReactPage<Props, States>
+export class %%capitalComponentName%% extends ReactPage<ReactPageProps, States>
 {
 	// ------------------------------------------------------------------------- INIT
 
