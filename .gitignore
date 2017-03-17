@@ -13,6 +13,8 @@ deploy/assets/js/*
 # For pebble PHP Framework
 deploy/app/configs/app.yml
 deploy/app/vendor/*
+deploy/app/temp/*
+deploy/app/composer.lock
 
 
 # ------------------------------------------------------------------------------ BUILD AND LIBS
@@ -51,3 +53,6 @@ logs
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
+build/temp/
+deploy/assets/
+src/common/config/
