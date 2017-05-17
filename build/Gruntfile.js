@@ -30,8 +30,8 @@ module.exports = function (grunt)
 			// Path to the libs (bower libs)
 			lib				: '../lib/',
 
-			// Path to the deploy (output files pushed to the server)
-			deploy			: '../deploy/',
+			// Path to the web-root (deployed files pushed to the server)
+			www				: '../www/',
 
 			// Skeletons files to be scaffold or deployed
 			skeletons		: './skeletons/'

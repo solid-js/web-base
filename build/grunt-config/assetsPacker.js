@@ -25,7 +25,7 @@ module.exports = function (grunt)
 		// This file includes all static javascript dependencies
 		libs: {
 			type: 'js',
-			dest: '{= path.deploy }assets/js/static-libs.js',
+			dest: '{= path.www }assets/js/static-libs.js',
 
 			// Use array to use different files for regular and optimised targets.
 			// First index will be regular and second will be optimised.
@@ -75,8 +75,8 @@ module.exports = function (grunt)
 		myApp1: {
 
 			// Output files
-			js: '{= path.deploy }assets/js/my-app-1.js',
-			css: '{= path.deploy }assets/css/my-app-1.css',
+			js: '{= path.www }assets/js/my-app-1.js',
+			css: '{= path.www }assets/css/my-app-1.css',
 
 			// Included folders
 			include: ['components/', 'pages/']
@@ -86,8 +86,8 @@ module.exports = function (grunt)
 		myApp2: {
 
 			// Output files
-			js: '{= path.deploy }assets/js/my-app-2.js',
-			css: '{= path.deploy }assets/css/my-app-2.css',
+			js: '{= path.www }assets/js/my-app-2.js',
+			css: '{= path.www }assets/css/my-app-2.css',
 
 			// Included folders
 			include: ['components/', 'pages/']
@@ -100,8 +100,8 @@ module.exports = function (grunt)
 			// If you build common without previously build apps, libs dependencies will be missing
 
 			// Output files
-			js: '{= path.deploy }assets/js/common.js',
-			css: '{= path.deploy }assets/css/common.css',
+			js: '{= path.www }assets/js/common.js',
+			css: '{= path.www }assets/css/common.css',
 
 			// Included folders
 			include: ['components/'],

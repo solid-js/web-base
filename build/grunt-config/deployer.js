@@ -9,14 +9,14 @@ module.exports = function (grunt)
 				/*
 				{
 					src: '{= path.skeletons }deployment/.htaccess',
-					dest: '{= path.deploy }.htaccess'
+					dest: '{= path.www }.htaccess'
 				},
 				*/
 
 				// Example with dynamic file name
 				/*{
 					src: '{= path.skeletons }deployment/.spec',
-					dest: '{= path.deploy }%%specName%%.spec'
+					dest: '{= path.www }%%specName%%.spec'
 				},*/
 
 				// Copy informations as config.json
@@ -28,7 +28,7 @@ module.exports = function (grunt)
 			],
 
 			// Auto-incremented version file
-			versionFile: '{= path.skeletons }deployment/version',
+			versionFile: './version',
 
 			// Common properties for all targets
 			properties: {

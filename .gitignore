@@ -3,18 +3,18 @@
 # ------------------------------------------------------------------------------ DEPLOYED FILES
 
 # Deployed files
-deploy/.htaccess
+www/.htaccess
 src/common/config/App.json
 
 # Deployed scripts
-deploy/assets/css/*
-deploy/assets/js/*
+www/assets/css/*
+www/assets/js/*
 
 # For pebble PHP Framework
-deploy/app/configs/app.yml
-deploy/app/vendor/*
-deploy/app/temp/*
-deploy/app/composer.lock
+www/app/configs/app.yml
+www/app/vendor/*
+www/app/temp/*
+www/app/composer.lock
 
 
 # ------------------------------------------------------------------------------ BUILD AND LIBS
@@ -54,5 +54,5 @@ logs
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
 build/temp/
-deploy/assets/
+www/assets/
 src/common/config/

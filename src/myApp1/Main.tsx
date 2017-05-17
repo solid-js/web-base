@@ -7,6 +7,10 @@ import {ReactView, React, ReactDom} from "../../lib/solidify/react/ReactView";
 import {Config} from "../../lib/solidify/core/Config";
 import ReactDOM = __React.ReactDOM;
 import {Router} from "../../lib/solidify/navigation/Router";
+import {
+	EOrientation, EBreakpointName, IBreakpoint,
+	ResponsiveManager
+} from "../../lib/solidify/helpers/ResponsiveManager";
 
 // ----------------------------------------------------------------------------- STRUCT
 
@@ -133,5 +137,79 @@ export class Main extends App<IMyModule1Params>
 	{
 		// Start router when ready
 		Router.instance.start();
+
+		// FIXME : remove this, this is a test
+		this.responsiveManagerTest();
+	}
+
+	responsiveManagerTest ()
+	{
+		// Responsive manager test
+		ResponsiveManager.instance.setBreakpoints([
+			// -- HORIZONTAL
+			{
+				orientation	: EOrientation.HORIZONTAL,
+				name		: EBreakpointName.MOBILE,
+				from		: 0
+			},
+			{
+				orientation	: EOrientation.HORIZONTAL,
+				name		: EBreakpointName.TABLET,
+				from		: 700
+			},
+			{
+				orientation	: EOrientation.HORIZONTAL,
+				name		: EBreakpointName.DESKTOP,
+				from		: 1200
+			},
+			{
+				orientation	: EOrientation.HORIZONTAL,
+				name		: EBreakpointName.EXTRA_LARGE,
+				from		: 1600
+			},
+
+			// -- VERTICAL
+			{
+				orientation	: EOrientation.VERTICAL,
+				name		: EBreakpointName.TINY,
+				from		: 0
+			},
+			{
+				orientation	: EOrientation.VERTICAL,
+				name		: EBreakpointName.SMALL,
+				from		: 400
+			},
+			{
+				orientation	: EOrientation.VERTICAL,
+				name		: EBreakpointName.MEDIUM,
+				from		: 600
+			},
+			{
+				orientation	: EOrientation.VERTICAL,
+				name		: EBreakpointName.LARGE,
+				from		: 900
+			}
+		]);
+
+
+		ResponsiveManager.instance.onHorizontalBreakpointChanged.add( (pNewBreakpoint:IBreakpoint, pOldBreakpoint:IBreakpoint) =>
+		{
+			console.log('NEW HORIZONTAL BREAKPOINT', pNewBreakpoint);
+
+		});
+		ResponsiveManager.instance.onVerticalBreakpointChanged.add( (pNewBreakpoint:IBreakpoint, pOldBreakpoint:IBreakpoint) =>
+		{
+			console.log('NEW VERTICAL BREAKPOINT', pNewBreakpoint);
+		});
+
+		ResponsiveManager.instance.onOrientationChanged.add( (pNewOrientation:EOrientation) =>
+		{
+			console.log('NEW ORIENTATION', pNewOrientation);
+		});
+
+		ResponsiveManager.instance.onWindowSizeChanged.add( (pNewWidth:number, pNewHeight:number) =>
+		{
+			//console.log('NEW SIZE', pNewWidth, pNewHeight);
+		});
 	}
 }
