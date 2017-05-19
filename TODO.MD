@@ -34,3 +34,7 @@
 
 - Ajouter les notifications grunt
 - Ajouter un plugin de génération de favicon [ticket](https://github.com/solid-js/web-base/issues/1)
+
+
+Inspiration workflow :
+https://github.com/Microsoft/TypeScript-React-Starter
