@@ -11,6 +11,8 @@ import {
 	EOrientation, EBreakpointName, IBreakpoint,
 	ResponsiveManager
 } from "../../lib/solidify/helpers/ResponsiveManager";
+import {EaseUtils} from "../../lib/solidify/utils/EaseUtils";
+import {MathUtils} from "../../lib/solidify/utils/MathUtils";
 
 // ----------------------------------------------------------------------------- STRUCT
 
@@ -38,6 +40,61 @@ export class Main extends App<IMyModule1Params>
 		Config.instance.inject(
 			JsonFiles['src/common/config/App']
 		);
+
+		// Default main GSAP easing with quick attach and slow release
+		EaseUtils.registerMainEase(
+			EaseUtils.combine(
+				Expo.easeIn, Expo.easeOut, .2
+			)
+		);
+
+		// Init breakpoints for responsive
+		// FIXME : Those values are examples
+		ResponsiveManager.instance.setBreakpoints([
+			// -- HORIZONTAL
+			{
+				orientation	: EOrientation.HORIZONTAL,
+				name		: EBreakpointName.MOBILE,
+				from		: 0
+			},
+			{
+				orientation	: EOrientation.HORIZONTAL,
+				name		: EBreakpointName.TABLET,
+				from		: 700
+			},
+			{
+				orientation	: EOrientation.HORIZONTAL,
+				name		: EBreakpointName.DESKTOP,
+				from		: 1200
+			},
+			{
+				orientation	: EOrientation.HORIZONTAL,
+				name		: EBreakpointName.EXTRA_LARGE,
+				from		: 1600
+			},
+
+			// -- VERTICAL
+			{
+				orientation	: EOrientation.VERTICAL,
+				name		: EBreakpointName.TINY,
+				from		: 0
+			},
+			{
+				orientation	: EOrientation.VERTICAL,
+				name		: EBreakpointName.SMALL,
+				from		: 400
+			},
+			{
+				orientation	: EOrientation.VERTICAL,
+				name		: EBreakpointName.MEDIUM,
+				from		: 600
+			},
+			{
+				orientation	: EOrientation.VERTICAL,
+				name		: EBreakpointName.LARGE,
+				from		: 900
+			}
+		]);
 	}
 
 	/**
@@ -138,60 +195,39 @@ export class Main extends App<IMyModule1Params>
 		// Start router when ready
 		Router.instance.start();
 
-		// FIXME : remove this, this is a test
-		this.responsiveManagerTest();
+		// FIXME : remove this
+		//this.responsiveManagerTest();
+		//this.easeTest();
 	}
 
-	responsiveManagerTest ()
+
+	// ------------------------------------------------------------------------- TEMP
+
+	// TODO : Remove those tests
+
+	protected easeTest ()
 	{
-		// Responsive manager test
-		ResponsiveManager.instance.setBreakpoints([
-			// -- HORIZONTAL
-			{
-				orientation	: EOrientation.HORIZONTAL,
-				name		: EBreakpointName.MOBILE,
-				from		: 0
-			},
-			{
-				orientation	: EOrientation.HORIZONTAL,
-				name		: EBreakpointName.TABLET,
-				from		: 700
-			},
-			{
-				orientation	: EOrientation.HORIZONTAL,
-				name		: EBreakpointName.DESKTOP,
-				from		: 1200
-			},
-			{
-				orientation	: EOrientation.HORIZONTAL,
-				name		: EBreakpointName.EXTRA_LARGE,
-				from		: 1600
-			},
+		let $div = $('<div/>').css({
+			width: 10,
+			height: 10,
+			background: 'red'
+		});
 
-			// -- VERTICAL
-			{
-				orientation	: EOrientation.VERTICAL,
-				name		: EBreakpointName.TINY,
-				from		: 0
-			},
-			{
-				orientation	: EOrientation.VERTICAL,
-				name		: EBreakpointName.SMALL,
-				from		: 400
-			},
-			{
-				orientation	: EOrientation.VERTICAL,
-				name		: EBreakpointName.MEDIUM,
-				from		: 600
-			},
-			{
-				orientation	: EOrientation.VERTICAL,
-				name		: EBreakpointName.LARGE,
-				from		: 900
-			}
-		]);
+		$('html').append($div).on('click', () =>
+		{
+			TweenLite.to($div, 1, {
+				x: MathUtils.randomRange(0, 500),
+				y: MathUtils.randomRange(0, 500),
+				width: MathUtils.randomRange(10, 50),
+				height: MathUtils.randomRange(10, 50),
+				ease: EaseUtils.mainEase
+			});
+		});
 
+	}
 
+	protected responsiveManagerTest ()
+	{
 		ResponsiveManager.instance.onHorizontalBreakpointChanged.add( (pNewBreakpoint:IBreakpoint, pOldBreakpoint:IBreakpoint) =>
 		{
 			console.log('NEW HORIZONTAL BREAKPOINT', pNewBreakpoint);
