@@ -16,6 +16,10 @@ www/app/vendor/*
 www/app/temp/*
 www/app/composer.lock
 
+# Generated spriteSheets
+src/common/sprites/*.json
+src/common/sprites/*.less
+
 
 # ------------------------------------------------------------------------------ BUILD AND LIBS
 
