@@ -63,7 +63,8 @@ module.exports = function (grunt)
 
 			// Load local tasks and config
 			local: [
-				'assetsPacker'
+				'assetsPacker',
+				'spriteGenerator'
 			]
 		}
 	});
@@ -78,5 +79,5 @@ module.exports = function (grunt)
 	// ------------------------------------------------------------------------- TASKS
 
 	// By default, compile all bundles and watch
-	grunt.registerTask('default', ['clean:all', 'all', 'watch']);
+	grunt.registerTask('default', ['sprites', 'clean:all', 'all', 'watch']);
 };

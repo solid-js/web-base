@@ -1,5 +1,25 @@
 module.exports = {
 	/**
+	 * Get file name from path.
+	 * Not tested for every cases, use with caution.
+	 * @param pFullPath
+	 * @returns {string}
+	 */
+	getFileName: function (pFullPath)
+	{
+		var firstIndex = pFullPath.lastIndexOf('/');
+		var lastIndex = pFullPath.lastIndexOf('.');
+
+		if (lastIndex <= 0)
+		{
+			lastIndex = pFullPath.length;
+		}
+
+
+		return pFullPath.substring(firstIndex + 1, lastIndex);
+	},
+
+	/**
 	 * Normalize typescript module names for dynamic import.
 	 * This function takes an array of ts file paths and convert it in module names.
 	 * For example: ['../lib/provider/LibName.ts'] become ['lib/provider/LibName']

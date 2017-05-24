@@ -1,6 +1,6 @@
 {
 	"name": "solidify-web-base",
-	"version": "0.4.1",
+	"version": "0.4.2",
 	"devDependencies": {
 		"grunt": "latest",
 		"grunt-minimal-config": "latest",
@@ -19,6 +19,8 @@
 		"grunt-shell": "latest",
 		"grunt-ts": "latest",
 		"grunt-scaff": "latest",
+		"handlebars": "^4.0.10",
+		"node-sprite-generator": "^0.10.2",
 
 		"typings" : "latest",
 		"bower" : "latest"
