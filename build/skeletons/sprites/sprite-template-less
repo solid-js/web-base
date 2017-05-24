@@ -26,9 +26,9 @@
 // Target the sprite as background with build seed
 .{{spritePrefix}}-seed
 {
-    .{{spritePrefix}}-vars();
-    background-repeat: no-repeat;
-    background-image: url(~'@{spritePath}?@{spriteSeed}');
+	.{{spritePrefix}}-vars();
+	background-repeat: no-repeat;
+	background-image: url(~'@{spritePath}?@{spriteSeed}');
 }
 
 // Target the sprite as background without the build seed
@@ -60,7 +60,7 @@
 	width   : @textureWidth * @ratio;
 	height  : @textureHeight * @ratio;
 	background-position : @textureX * @ratio @textureY * @ratio;
-	background-size     : @spriteHeight * @ratio @spriteWidth * @ratio;
+	background-size     : @spriteWidth * @ratio @spriteHeight * @ratio;
 }
 
 // CSS Injected declaration

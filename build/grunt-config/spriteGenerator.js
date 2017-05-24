@@ -23,7 +23,7 @@ module.exports = function (grunt)
 			spritePath        : '../sprites/',
 
 			// Where are created PNG output texture file
-			spriteOutput      : '{= path.www }assets/img/sprites/',
+			spriteOutput      : '{= path.www }assets/sprites/',
 
 			// PNG output compression level (from 0 to 9)
 			compression       : 9,
@@ -73,14 +73,18 @@ module.exports = function (grunt)
 		 * }
 		 */
 
-		// Example :
+
 		/*
+		// Example with custom parameters :
 		'my-sprite-folder-name' : {
 			layout  : 'vertical',
 			layoutOptions : {
 				padding : 0
 			}
-		}
+		},
+
+		// Example with default parameters :
+		'my-other-sprite-folder-name' : {}
 		*/
 	}
 };

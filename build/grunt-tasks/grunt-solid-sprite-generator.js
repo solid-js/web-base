@@ -36,15 +36,15 @@ module.exports = function (pGrunt)
 
 	// Check if options is well formatted
 	if (
-				!('inputFolder'           in spriteGeneratorConfig.options)
-				|| !('fileExtensions'     in spriteGeneratorConfig.options)
-				|| !('spriteSheetOutput'  in spriteGeneratorConfig.options)
-				|| !('spriteOutput'       in spriteGeneratorConfig.options)
-				|| !('spritePath'         in spriteGeneratorConfig.options)
-				|| !('compression'        in spriteGeneratorConfig.options)
-				|| !('filter'             in spriteGeneratorConfig.options)
-				|| !('skeletons'          in spriteGeneratorConfig.options)
-		)
+		!('inputFolder'           in spriteGeneratorConfig.options)
+		|| !('fileExtensions'     in spriteGeneratorConfig.options)
+		|| !('spriteSheetOutput'  in spriteGeneratorConfig.options)
+		|| !('spriteOutput'       in spriteGeneratorConfig.options)
+		|| !('spritePath'         in spriteGeneratorConfig.options)
+		|| !('compression'        in spriteGeneratorConfig.options)
+		|| !('filter'             in spriteGeneratorConfig.options)
+		|| !('skeletons'          in spriteGeneratorConfig.options)
+	)
 	{
 		pGrunt.fail.fatal('options node from spriteGenerator config is not formatted correctly.');
 	}
@@ -106,7 +106,7 @@ module.exports = function (pGrunt)
 				width   : currentImage.width,
 				height  : currentImage.height,
 				name    : ModuleNameNormalizer.getFileName(currentImage.path)
-		  });
+			});
 		}
 
 		// Add lastOne flag for JSON files
@@ -118,8 +118,8 @@ module.exports = function (pGrunt)
 			// Generate styleSheet from skeleton and write it to output file
 			var currentSkeleton = skeletons[i];
 			pGrunt.file.write(
-					pStylesheetOutputPath + '.' + currentSkeleton.extension,
-					currentSkeleton.template( cleanStylesheetData )
+				pStylesheetOutputPath + '.' + currentSkeleton.extension,
+				currentSkeleton.template( cleanStylesheetData )
 			);
 		}
 
@@ -177,22 +177,22 @@ module.exports = function (pGrunt)
 
 				// Inject styleSheet path (LESS file output)
 				injectConfig(
-						spriteConfig, 'stylesheetPath',
-						options.spriteSheetOutput + spritePrefix + separator + spriteName
+					spriteConfig, 'stylesheetPath',
+					options.spriteSheetOutput + spritePrefix + separator + spriteName
 				);
 
 				// Inject stylesheet options
 				injectConfig(spriteConfig, 'stylesheetOptions', {
 					prefix      : spritePrefix + separator + spriteName,
-					spritePath  : options.spritePath + spriteName + outputSpriteExtension
-					//pixelRatio  : 2
+					spritePath  : options.spritePath + spriteName + outputSpriteExtension,
+					pixelRatio  : 1
 				});
 
 				// Inject default layout
 				injectConfig(spriteConfig, 'layout', 'packed');
 				injectConfig(spriteConfig, 'layoutOptions', {
-					padding: 2
-					//scaling : 1
+					padding : 2,
+					scaling : 1
 				});
 
 				// Inject default compositor
