@@ -13,6 +13,7 @@ import {
 } from "../../lib/solidify/helpers/ResponsiveManager";
 import {EaseUtils} from "../../lib/solidify/utils/EaseUtils";
 import {MathUtils} from "../../lib/solidify/utils/MathUtils";
+import {ScrollLocker} from "../../lib/solidify/helpers/ScrollLocker";
 
 // ----------------------------------------------------------------------------- STRUCT
 
@@ -198,6 +199,7 @@ export class Main extends App<IMyModule1Params>
 		// FIXME : remove this
 		//this.responsiveManagerTest();
 		//this.easeTest();
+		//this.scrollLockTest();
 	}
 
 
@@ -246,6 +248,28 @@ export class Main extends App<IMyModule1Params>
 		ResponsiveManager.instance.onWindowSizeChanged.add( (pNewWidth:number, pNewHeight:number) =>
 		{
 			//console.log('NEW SIZE', pNewWidth, pNewHeight);
+		});
+	}
+
+	protected scrollLockTest ()
+	{
+		for (let i = 0; i < 100; i ++)
+		{
+			this._params.root.append($('<div></div>').text('test scroll' + Math.random()));
+		}
+
+		$(document).one('click', () =>
+		{
+			console.info('Adding two scroll lock');
+
+			ScrollLocker.instance.addLock();
+			ScrollLocker.instance.addLock();
+
+			$(document).on('click', () =>
+			{
+				console.info('Removing one scroll lock');
+				ScrollLocker.instance.removeLock();
+			});
 		});
 	}
 }
