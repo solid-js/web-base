@@ -41,6 +41,14 @@ export class %%capitalComponentName%% extends JView
 	}
 
 	/**
+	 * Init sub-components
+	 */
+	protected initComponents ()
+	{
+        // Remove this method if not used
+	}
+
+	/**
 	 * Prepare events
 	 */
 	protected prepareEvents ()
@@ -52,14 +60,6 @@ export class %%capitalComponentName%% extends JView
 	 * Middleware called just after init sequence
 	 */
 	protected afterInit ()
-	{
-        // Remove this method if not used
-	}
-
-	/**
-	 * Init sub-components after init
-	 */
-	protected initComponents ()
 	{
         // Remove this method if not used
 	}
