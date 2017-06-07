@@ -80,5 +80,5 @@ module.exports = function (grunt)
 	// ------------------------------------------------------------------------- TASKS
 
 	// By default, compile all bundles and watch
-	grunt.registerTask('default', ['clean:all', 'sprites', 'less2json', 'all', 'watch']);
+	grunt.registerTask('default', ['clean:all', 'sprites', 'less2js', 'all', 'watch']);
 };
