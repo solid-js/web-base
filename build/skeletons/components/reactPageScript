@@ -56,7 +56,7 @@ export class %%capitalComponentName%% extends ReactPage<ReactPageProps, States>
 
 	/**
 	 * Action on this page.
-	 * Check props.action and props.params to show proper content.
+	 * Check props.action and props.parameters to show proper content.
 	 */
 	action ()
 	{

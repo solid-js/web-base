@@ -5,6 +5,7 @@
 # Deployed files
 www/.htaccess
 src/common/config/App.json
+src/common/config/Atoms.json
 
 # Deployed scripts
 www/assets/css/*

@@ -8,26 +8,46 @@
 @fontBasePath: '../fonts/';
 
 
-// ----------------------------------------------------------------------------- RWD
+// ----------------------------------------------------------------------------- BREAKPOINTS
 
-// Minimum body width. First iphone width.
-// Some old android phones are 240, sorry for them.
-@minBodyWidth: 320px;
+/**
+ * Breakpoints are pre-named like so.
+ * You can use them or comment them as you want, but you can't add a new breakpoint.
+ * Those breakpoints are compiled to JSON file which is included inside Typescript app,
+ * so ResponsiveManager have access to those values.
+ * @important : Please use only max-width or min-width in your app.
+ * You can use either abstract or concrete naming paradigm.
+ * Here are some default values you can change.
+ */
 
-// Going from small to medium phone
-@smallMobileBreakpoint: 480px;
+// Horizontal - abstract
+@breakpoint-horizontal-tiny					: 0px;
+//@breakpoint-horizontal-extraSmall		: 0px;
+//@breakpoint-horizontal-small				: 0px;
+//@breakpoint-horizontal-medium				: 0px;
+//@breakpoint-horizontal-large				: 0px;
+//@breakpoint-horizontal-extraLarge		: 0px;
+//@breakpoint-horizontal-gigantic			: 0px;
 
-// Going from medium phone to portrait tablet
-@mediumPhoneBreakpoint: 720px;
+// Horizontal - concrete
+@breakpoint-horizontal-mobile				: 320px;
+@breakpoint-horizontal-phablet			: 700px;
+@breakpoint-horizontal-tablet				: 1200px;
+@breakpoint-horizontal-laptop				: 1600px;
+//@breakpoint-horizontal-desktop			: 1920px;
 
-// Going from portrait tablet to landscape tablet
-@portraitTabletBreakpoint: 960px;
+// Vertical - abstract
+@breakpoint-vertical-tiny					: 0px;
+@breakpoint-vertical-extraSmall		: 320px;
+//@breakpoint-vertical-small				: 400px;
+@breakpoint-vertical-medium				: 375px;
+@breakpoint-vertical-large				: 420px;
+@breakpoint-vertical-extraLarge		: 600px;
+//@breakpoint-vertical-gigantic			: 0px;
 
-// Going from landscape tablet to laptop
-@laptopBreakpoint: 1280px;
-
-// Going from laptop to desktop
-@desktopBreakpoint: 1440px;
-
-// Going from desktop to huge screen
-@hugeScreenBreakpoint: 1800px;
+// Vertical - concrete
+//@breakpoint-vertical-mobile				: 320px;
+//@breakpoint-vertical-phablet			: 700px;
+//@breakpoint-vertical-tablet				: 1200px;
+//@breakpoint-vertical-laptop				: 1600px;
+//@breakpoint-vertical-desktop			: 1920px;

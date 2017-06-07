@@ -55,6 +55,7 @@ module.exports = function (grunt)
 				'imagemin',
 				'json',
 				'less',
+				'less2js',
 				'ts',
 				'scaff',
 				'uglify',
@@ -79,5 +80,5 @@ module.exports = function (grunt)
 	// ------------------------------------------------------------------------- TASKS
 
 	// By default, compile all bundles and watch
-	grunt.registerTask('default', ['sprites', 'clean:all', 'all', 'watch']);
+	grunt.registerTask('default', ['clean:all', 'sprites', 'less2json', 'all', 'watch']);
 };

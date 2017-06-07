@@ -2,7 +2,7 @@
 
 import {DependencyManager, IModulePathStorage} from "../../lib/solidify/helpers/DependencyManager";
 import {App} from "../../lib/solidify/core/App";
-import {IAppParams} from "../../lib/solidify/core/App";
+import {IAppParameters} from "../../lib/solidify/core/App";
 import {ReactView, React, ReactDom} from "../../lib/solidify/react/ReactView";
 import {Config} from "../../lib/solidify/core/Config";
 import ReactDOM = __React.ReactDOM;
@@ -17,8 +17,8 @@ import {ScrollLocker} from "../../lib/solidify/helpers/ScrollLocker";
 
 // ----------------------------------------------------------------------------- STRUCT
 
-// App parameters interface extending default params
-interface IMyModule1Params extends IAppParams
+// App parameters interface extending default parameters
+interface IMyModule1Params extends IAppParameters
 {
 	env					:string;
 	version				:string;
@@ -49,53 +49,9 @@ export class Main extends App<IMyModule1Params>
 			)
 		);
 
-		// Init breakpoints for responsive
-		// FIXME : Those values are examples
-		ResponsiveManager.instance.setBreakpoints([
-			// -- HORIZONTAL
-			{
-				orientation	: EOrientation.HORIZONTAL,
-				name		: EBreakpointName.MOBILE,
-				from		: 0
-			},
-			{
-				orientation	: EOrientation.HORIZONTAL,
-				name		: EBreakpointName.TABLET,
-				from		: 700
-			},
-			{
-				orientation	: EOrientation.HORIZONTAL,
-				name		: EBreakpointName.DESKTOP,
-				from		: 1200
-			},
-			{
-				orientation	: EOrientation.HORIZONTAL,
-				name		: EBreakpointName.EXTRA_LARGE,
-				from		: 1600
-			},
-
-			// -- VERTICAL
-			{
-				orientation	: EOrientation.VERTICAL,
-				name		: EBreakpointName.TINY,
-				from		: 0
-			},
-			{
-				orientation	: EOrientation.VERTICAL,
-				name		: EBreakpointName.SMALL,
-				from		: 400
-			},
-			{
-				orientation	: EOrientation.VERTICAL,
-				name		: EBreakpointName.MEDIUM,
-				from		: 600
-			},
-			{
-				orientation	: EOrientation.VERTICAL,
-				name		: EBreakpointName.LARGE,
-				from		: 900
-			}
-		]);
+		// Auto set breakpoints from compiled JSON file
+		// This JSON file is compiled from atom less definitions
+		ResponsiveManager.instance.autoSetBreakpointsFromLess();
 	}
 
 	/**
@@ -104,14 +60,11 @@ export class Main extends App<IMyModule1Params>
 	protected initModules ()
 	{
 		// Register common dependencies
-		this._dependencyManager.registerModulePath('component', 'src/common/components/');
+		this._dependencyManager.registerModulePath('component', 	'src/common/components/');
 
 		// Register app dependencies
-		this._dependencyManager.registerModulePath('component', 'src/myModule1/components/');
-		this._dependencyManager.registerModulePath('page', 'src/myModule1/pages/');
-
-		// Show module paths
-		console.log('>', this._dependencyManager.getFlatModulesPath());
+		this._dependencyManager.registerModulePath('component', 	'src/myModule1/components/');
+		this._dependencyManager.registerModulePath('page', 			'src/myModule1/pages/');
 	}
 
 	/**
@@ -133,15 +86,20 @@ export class Main extends App<IMyModule1Params>
 
 	// ------------------------------------------------------------------------- APP VIEW
 
-	// React component instance
+	// App view instance
 	//protected _appView		:MyAppView;
+	//get appView ():MyAppView { return this._appView; }
 
 	/**
 	 * Init app view.
 	 */
 	protected initAppView ():void
 	{
-		//this._appView = ReactDom.render( <MyAppView />, this._matchingParameter.root[0] ) as MyAppView;
+		// REACT
+		//this._appView = ReactDom.render( <MyAppView />, this._parameters.root[0] ) as MyAppView;
+
+		// JQUERY
+		//this._appView = new MyAppView( this._parameters.root );
 	}
 
 
@@ -155,7 +113,7 @@ export class Main extends App<IMyModule1Params>
 		// Init router
 		// Google analytics is automatically called when page is chaning
 		let router = new Router(
-			this._params.base,
+			this._parameters.base,
 			[
 				// -- Home page
 				{
@@ -196,16 +154,16 @@ export class Main extends App<IMyModule1Params>
 		// Start router when ready
 		Router.instance.start();
 
-		// FIXME : remove this
+		// FIXME : remove this on your app
 		//this.responsiveManagerTest();
 		//this.easeTest();
 		//this.scrollLockTest();
 	}
 
 
-	// ------------------------------------------------------------------------- TEMP
+	// ------------------------------------------------------------------------- TEMP TESTS
 
-	// TODO : Remove those tests
+	// TODO : Remove those tests on your app
 
 	protected easeTest ()
 	{
@@ -232,17 +190,32 @@ export class Main extends App<IMyModule1Params>
 	{
 		ResponsiveManager.instance.onHorizontalBreakpointChanged.add( (pNewBreakpoint:IBreakpoint, pOldBreakpoint:IBreakpoint) =>
 		{
-			console.log('NEW HORIZONTAL BREAKPOINT', pNewBreakpoint);
+			console.log('horizontal', EBreakpointName[pNewBreakpoint.name]);
 
+			let res1 = ResponsiveManager.instance.isLessOrEqualTo(
+				EOrientation.HORIZONTAL,
+				EBreakpointName.TABLET
+			);
+
+			console.log('Is less or equal to tablet', res1 );
+
+			let res2 = ResponsiveManager.instance.isMoreOrEqualTo(
+				EOrientation.HORIZONTAL,
+				EBreakpointName.TABLET
+			);
+
+			console.log('Is more or equal to tablet', res2 );
 		});
 		ResponsiveManager.instance.onVerticalBreakpointChanged.add( (pNewBreakpoint:IBreakpoint, pOldBreakpoint:IBreakpoint) =>
 		{
-			console.log('NEW VERTICAL BREAKPOINT', pNewBreakpoint);
+			//console.log('vertical', EBreakpointName[pNewBreakpoint.name]);
+
+			//console.log('NEW VERTICAL BREAKPOINT', pNewBreakpoint);
 		});
 
 		ResponsiveManager.instance.onOrientationChanged.add( (pNewOrientation:EOrientation) =>
 		{
-			console.log('NEW ORIENTATION', pNewOrientation);
+			//console.log('NEW ORIENTATION', pNewOrientation);
 		});
 
 		ResponsiveManager.instance.onWindowSizeChanged.add( (pNewWidth:number, pNewHeight:number) =>
@@ -255,7 +228,7 @@ export class Main extends App<IMyModule1Params>
 	{
 		for (let i = 0; i < 100; i ++)
 		{
-			this._params.root.append($('<div></div>').text('test scroll' + Math.random()));
+			this._parameters.root.append($('<div></div>').text('test scroll' + Math.random()));
 		}
 
 		$(document).one('click', () =>

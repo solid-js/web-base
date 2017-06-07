@@ -101,6 +101,32 @@ module.exports = function (grunt)
 					'skeletons/components/jqueryComponentScript': '{= path.src }%%moduleName%%/components/%%componentName%%/%%capitalComponentName%%.tsx'
 				}
 			}
+		},
+
+		// Scaffolder for a solid jquery page
+		jqueryPage: {
+			options: {
+				questions: [
+					// In which module do we have to create the new component ?
+					{
+						name: 'moduleName',
+						type: 'input',
+						message: 'Module name - CamelCase :'
+					},
+
+					// What is the component name ?
+					{
+						name: 'componentName',
+						type: 'input',
+						message: 'JQuery page name CamelCase :'
+					}
+				],
+				filter: filter,
+				template: {
+					'skeletons/components/componentStyle': '{= path.src }%%moduleName%%/pages/%%componentName%%/%%capitalComponentName%%.less',
+					'skeletons/components/jqueryComponentScript': '{= path.src }%%moduleName%%/pages/%%componentName%%/%%capitalComponentName%%.tsx'
+				}
+			}
 		}
 	};
 };
