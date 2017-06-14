@@ -11,7 +11,6 @@
   <CssCodeStyleSettings>
     <option name="BRACE_PLACEMENT" value="1" />
     <option name="VALUE_ALIGNMENT" value="1" />
-    <option name="BLANK_LINES_BETWEEN_BLOCKS" value="2" />
   </CssCodeStyleSettings>
   <JSCodeStyleSettings>
     <option name="ALIGN_OBJECT_PROPERTIES" value="2" />
