@@ -14,6 +14,7 @@ import {
 import {EaseUtils} from "../../lib/solidify/utils/EaseUtils";
 import {MathUtils} from "../../lib/solidify/utils/MathUtils";
 import {ScrollLocker} from "../../lib/solidify/helpers/ScrollLocker";
+import {BitmapUtils} from "../../lib/solidify/utils/BitmapUtils";
 
 // ----------------------------------------------------------------------------- STRUCT
 
@@ -153,8 +154,8 @@ export class Main extends App<IMyModule1Params>
 	{
 		// Start router when ready
 		Router.instance.start();
-
 		// FIXME : remove this on your app
+		//this.bitmapUtilsTest();
 		//this.responsiveManagerTest();
 		//this.easeTest();
 		//this.scrollLockTest();
@@ -244,5 +245,12 @@ export class Main extends App<IMyModule1Params>
 				ScrollLocker.instance.removeLock();
 			});
 		});
+	}
+
+	protected bitmapUtilsTest ()
+	{
+		let text = BitmapUtils.generateMultilineText('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam pharetra lacus vel lorem pulvinar, eget luctus quam convallis. ', 300, 12);
+
+		this._parameters.root.append(text);
 	}
 }
