@@ -64,9 +64,15 @@
 }
 
 // CSS Injected declaration
+// Regular (ratio 1)
 .{{../spritePrefix}}-{{name}}
 {
 	.{{../spritePrefix}}-{{name}}-scale(1);
+}
+// Retina (ratio 0.5)
+.{{../spritePrefix}}-{{name}}-retina
+{
+	.{{../spritePrefix}}-{{name}}-scale(.5);
 }
 
 {{/each}}

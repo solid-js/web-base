@@ -74,7 +74,10 @@ module.exports = function (pGrunt)
 	// ---------------------------------------------------------------------------
 
 	// Generate sprite seed for cache
-	var spriteSeed = (Math.random() * Math.pow(10, 16)).toString(16) + new Date().getTime().toString(16);
+	var spriteSeed = (
+		(Math.random() * Math.pow(10, 16)).toString(16)
+		+ new Date().getTime().toString(16)
+	);
 
 
 	// ---------------------------------------------------------------------------
