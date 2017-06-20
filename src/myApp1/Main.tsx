@@ -154,6 +154,7 @@ export class Main extends App<IMyModule1Params>
 	{
 		// Start router when ready
 		Router.instance.start();
+		
 		// FIXME : remove this on your app
 		//this.bitmapUtilsTest();
 		//this.responsiveManagerTest();
@@ -249,7 +250,7 @@ export class Main extends App<IMyModule1Params>
 
 	protected bitmapUtilsTest ()
 	{
-		let text = BitmapUtils.generateMultilineText('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam pharetra lacus vel lorem pulvinar, eget luctus quam convallis. ', 300, 12);
+		let text = BitmapUtils.generateMultilineText('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam pharetra lacus vel lorem pulvinar, eget luctus quam convallis. ', 300, 10);
 
 		this._parameters.root.append(text);
 	}
