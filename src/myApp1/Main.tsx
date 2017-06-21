@@ -8,8 +8,8 @@ import {Config} from "../../lib/solidify/core/Config";
 import ReactDOM = __React.ReactDOM;
 import {Router} from "../../lib/solidify/navigation/Router";
 import {
-	EOrientation, EBreakpointName, IBreakpoint,
-	ResponsiveManager
+	EDirection, EBreakpointName, IBreakpoint,
+	ResponsiveManager, EAspectRatio
 } from "../../lib/solidify/helpers/ResponsiveManager";
 import {EaseUtils} from "../../lib/solidify/utils/EaseUtils";
 import {MathUtils} from "../../lib/solidify/utils/MathUtils";
@@ -192,22 +192,25 @@ export class Main extends App<IMyModule1Params>
 	{
 		ResponsiveManager.instance.onHorizontalBreakpointChanged.add( (pNewBreakpoint:IBreakpoint, pOldBreakpoint:IBreakpoint) =>
 		{
+			console.log('width', ResponsiveManager.instance.currentWindowWidth);
 			console.log('horizontal', EBreakpointName[pNewBreakpoint.name]);
 
-			let res1 = ResponsiveManager.instance.isLessOrEqualTo(
-				EOrientation.HORIZONTAL,
+			let res1 = ResponsiveManager.instance.isLessThan(
 				EBreakpointName.TABLET
 			);
 
-			console.log('Is less or equal to tablet', res1 );
+			console.log('Is less than tablet (768) -> ', res1 );
 
-			let res2 = ResponsiveManager.instance.isMoreOrEqualTo(
-				EOrientation.HORIZONTAL,
+			let res2 = ResponsiveManager.instance.isMoreThan(
 				EBreakpointName.TABLET
 			);
 
-			console.log('Is more or equal to tablet', res2 );
+			console.log('Is more or equal to tablet (768) -> ', res2 );
 		});
+		ResponsiveManager.instance.onHorizontalBreakpointChanged.dispatch(
+			ResponsiveManager.instance.currentHorizontalBreakpoint,
+			null
+		);
 		ResponsiveManager.instance.onVerticalBreakpointChanged.add( (pNewBreakpoint:IBreakpoint, pOldBreakpoint:IBreakpoint) =>
 		{
 			//console.log('vertical', EBreakpointName[pNewBreakpoint.name]);
@@ -215,9 +218,9 @@ export class Main extends App<IMyModule1Params>
 			//console.log('NEW VERTICAL BREAKPOINT', pNewBreakpoint);
 		});
 
-		ResponsiveManager.instance.onOrientationChanged.add( (pNewOrientation:EOrientation) =>
+		ResponsiveManager.instance.onAspectRatioChanged.add( (pNewOrientation:EAspectRatio) =>
 		{
-			//console.log('NEW ORIENTATION', pNewOrientation);
+			console.log('NEW ASPECT RATIO', EAspectRatio[pNewOrientation]);
 		});
 
 		ResponsiveManager.instance.onWindowSizeChanged.add( (pNewWidth:number, pNewHeight:number) =>
