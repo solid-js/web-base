@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/b5e3b1987f6cbee9627bdbd845e0e9bf71325125/threejs/three-canvasrenderer.d.ts",
+    "raw": "registry:dt/three-canvasrenderer#0.0.0+20160916163606",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/b5e3b1987f6cbee9627bdbd845e0e9bf71325125/threejs/three-canvasrenderer.d.ts"
+  }
+}

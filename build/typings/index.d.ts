@@ -3,3 +3,5 @@
 /// <reference path="globals/q/index.d.ts" />
 /// <reference path="globals/react-dom/index.d.ts" />
 /// <reference path="globals/react/index.d.ts" />
+/// <reference path="globals/three-canvasrenderer/index.d.ts" />
+/// <reference path="globals/three/index.d.ts" />
