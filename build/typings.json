@@ -6,6 +6,7 @@
     "react": "registry:dt/react#0.14.0+20160412154040",
     "react-dom": "registry:dt/react-dom#0.14.0+20160412154040",
     "three": "registry:dt/three#0.84.0+20170323144537",
-    "three-canvasrenderer": "registry:dt/three-canvasrenderer#0.0.0+20160916163606"
+    "three-canvasrenderer": "registry:dt/three-canvasrenderer#0.0.0+20160916163606",
+    "webvr-api": "registry:dt/webvr-api#0.0.0+20161228192002"
   }
 }

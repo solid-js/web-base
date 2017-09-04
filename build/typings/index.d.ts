@@ -5,3 +5,4 @@
 /// <reference path="globals/react/index.d.ts" />
 /// <reference path="globals/three-canvasrenderer/index.d.ts" />
 /// <reference path="globals/three/index.d.ts" />
+/// <reference path="globals/webvr-api/index.d.ts" />
