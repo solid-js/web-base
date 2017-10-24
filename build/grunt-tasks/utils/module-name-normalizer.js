@@ -41,8 +41,8 @@ module.exports = {
 			// Truncate start from first / or from truncate start
 			firstSlashIndex = (
 				pTruncateStart != null
-					? currentModulePath.indexOf(pTruncateStart) + pTruncateStart.length
-					: currentModulePath.indexOf("/") + 1
+				? currentModulePath.indexOf(pTruncateStart) + pTruncateStart.length
+				: currentModulePath.indexOf("/") + 1
 			);
 
 			// Truncate start and extension

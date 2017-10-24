@@ -1,0 +1,10 @@
+{
+	"extends": "./tsconfig.json",
+	"exclude" : [
+		"../src/common/",
+		"../src/myApp1/"
+	],
+	"include": [
+		"../src/myApp2/Main.tsx"
+	]
+}

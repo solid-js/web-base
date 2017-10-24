@@ -1,0 +1,19 @@
+{
+  "textColor1": "#000000",
+  "backgroundColor1": "#333333",
+  "contrastColor1": "#ff0000",
+  "lineColor1": "#666666",
+  "fontBasePath": "'../fonts/'",
+  "emRatio": "16",
+  "breakpoint-horizontal-tiny": "0px",
+  "breakpoint-horizontal-mobile": "320px",
+  "breakpoint-horizontal-phablet": "600px",
+  "breakpoint-horizontal-tablet": "768px",
+  "breakpoint-horizontal-laptop": "1366px",
+  "breakpoint-horizontal-desktop": "1680px",
+  "breakpoint-vertical-tiny": "0px",
+  "breakpoint-vertical-extraSmall": "320px",
+  "breakpoint-vertical-medium": "375px",
+  "breakpoint-vertical-large": "420px",
+  "breakpoint-vertical-extraLarge": "600px"
+}

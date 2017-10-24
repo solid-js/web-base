@@ -1,15 +1,23 @@
 // Load the module name normalizer tool
 var moduleNameNormalizer = require('./utils/module-name-normalizer');
 
-module.exports = function (pGrunt)
+module.exports = function (grunt)
 {
-	pGrunt.registerMultiTask('compileAmd', 'Compile modules to AMD', function ()
+	grunt.registerMultiTask('compileAmd', 'Compile modules to AMD', function ()
 	{
-		// Get the default var name
-		var varName = 'varName' in this.data ? this.data.varName : '__FILE';
+		// Get default options
+		var options = this.options({
 
-		// Get the default search sentence
-		var search = 'search' in this.data ? this.data.search : "define(";
+			// Default var name
+			varName: '__FILE',
+
+			// Default search sentence
+			search: 'define(',
+
+			strict: false,
+
+			justConcat: false
+		});
 
 		// New content output file
 		var newFileContent = '';
@@ -21,70 +29,89 @@ module.exports = function (pGrunt)
 		var insertionIndex;
 		var totalModules = 0;
 
+		// Check files parameters
+		if (!Array.isArray(this.files)) grunt.log.error('Invalid files parameters.');
+
 		// Get file paths from selector
-		var files = pGrunt.file.expand({filter: 'isFile'}, this.data.src);
-
-		// Browse files
-		for (var i in files)
+		this.files.map(function (currentFile)
 		{
-			// Get file name
-			var fileName = files[i];
+			// Get glob files for this target
+			var files = grunt.file.expand(
+				{filter: 'isFile'},
+				currentFile.src || currentFile.files
+			);
 
-			// Read file content
-			var fileContent = pGrunt.file.read(fileName, { encoding: 'UTF-8' });
-
-			// Convert file path to file name
-			var moduleName = moduleNameNormalizer.normalizeTypescriptModuleName([fileName], this.data.root);
-
-			// Get the index right after the define call
-			firstIndex = fileContent.indexOf(search) + search.length;
-
-			// Get the dependencies array and function index to know if we really are in a define declaration
-			dependenciesIndex = fileContent.indexOf('[', firstIndex);
-			functionIndex = fileContent.indexOf('function', firstIndex);
-
-			// Get the new line index, this is where we insert our content
-			insertionIndex = fileContent.indexOf('{', functionIndex) + 1;
-
-			// This looks like an amd define
-			if (
-					insertionIndex > firstIndex
-					&&
-					functionIndex > firstIndex
-					&&
-					insertionIndex > functionIndex
-					&&
-					dependenciesIndex >= firstIndex
-					&&
-					functionIndex > dependenciesIndex
-				)
+			// Browse files
+			for (var i in files)
 			{
-				// Inject module name
-				newFileContent += fileContent.substring(0, firstIndex);
-				newFileContent += "'" + moduleName + "', ";
+				// Get file name
+				var fileName = files[i];
 
-				// Add the last parsed file part to the output file
-				newFileContent += fileContent.substring(firstIndex, insertionIndex) + "\n";
+				// Read file content
+				var fileContent = grunt.file.read(fileName, { encoding: 'UTF-8' });
 
-				// Inject our variable
-				newFileContent += "\n    var " + varName + " = '" + moduleName + "';";
+				// Just concat files
+				if (options.justConcat)
+				{
+					newFileContent += fileContent + '\n';
+					continue;
+				}
 
-				// Inject module content
-				newFileContent += fileContent.substring(insertionIndex, fileContent.length) + '\n\n';
+				// Convert file path to file name
+				var moduleName = moduleNameNormalizer.normalizeTypescriptModuleName([fileName], options.root);
 
-				// Count this as patched module
-				totalModules ++;
+				// Get the index right after the define call
+				firstIndex = fileContent.indexOf(options.search) + options.search.length;
+
+				// Get the dependencies array and function index to know if we really are in a define declaration
+				dependenciesIndex = fileContent.indexOf('[', firstIndex);
+				functionIndex = fileContent.indexOf('function', firstIndex);
+
+				// Get the new line index, this is where we insert our content
+				insertionIndex = fileContent.indexOf('{', functionIndex) + 1;
+
+				// This looks like an amd define
+				if (
+						insertionIndex > firstIndex
+						&&
+						functionIndex > firstIndex
+						&&
+						insertionIndex > functionIndex
+						&&
+						dependenciesIndex >= firstIndex
+						&&
+						functionIndex > dependenciesIndex
+					)
+				{
+					// Inject module name
+					newFileContent += fileContent.substring(0, firstIndex);
+					newFileContent += "'" + moduleName + "', ";
+
+					// Add the last parsed file part to the output file
+					newFileContent += fileContent.substring(firstIndex, insertionIndex) + "\n";
+
+					// Inject our variable
+					newFileContent += "    var " + options.varName + " = '" + moduleName + "';";
+
+					// Inject module content
+					newFileContent += fileContent.substring(insertionIndex, fileContent.length) + '\n\n';
+
+					// Count this as patched module
+					totalModules ++;
+				}
+
+				// Stop compilation if we are in strict mode
+				else if (options.strict)
+				{
+					grunt.log.error('Non AMD module detected ' + moduleName)
+				}
 			}
-			else
-			{
-				pGrunt.log.error('Non AMD module detected ' + moduleName)
-			}
-		}
 
-		// Write our output file
-		pGrunt.file.write(this.data.dest, newFileContent, { encoding: 'UTF-8' });
+			// Write our output file
+			grunt.file.write(currentFile.dest, newFileContent, { encoding: 'UTF-8' });
+		});
 
 		// Show our satisfaction
-		pGrunt.log.oklns(totalModules + ' modules patched' + (totalModules > 0 ? ' :)' : ''));
+		grunt.log.oklns( totalModules + ' modules compiled.' );
 	});
 };

@@ -1,0 +1,57 @@
+{
+	"compilerOptions": {
+		"outDir": "temp/typescript",
+		//"outFile" : "temp/typescript.js",
+
+		"rootDir" : ".",
+
+		// Module system and ECMA version target
+		"module" : "amd",
+		"target": "es5",
+
+		// Enabled libs
+		"lib": ["es6", "dom"],
+
+		// Disable sourceMaps compilation
+		"sourceMap": false,
+
+		// Allow node_modules import
+		"allowJs": true,
+
+		// Enable JSX transpiling
+		"jsx": "react",
+
+
+
+		// Compiler options
+		//"noImplicitReturns": true,
+		//"noImplicitThis": true,
+		//"noImplicitAny": true,
+		"strictNullChecks": true,
+		"preserveConstEnums" : false,
+		//"noResolve" : false,
+		"pretty" : true,
+		"allowUnreachableCode" : true,
+		"downlevelIteration" : true,
+
+		"importHelpers" : false,
+		"noEmitHelpers" : true
+
+
+		/*
+		"moduleResolution" : "node",
+		"baseUrl" : ".",
+		"typeRoots": ["node_modules/@types"]
+		*/
+	},
+	"exclude": [
+		"node_modules"
+	],
+	"include" : [
+		"src/**/Main.tsx"
+	]
+	/*
+	"include": [
+		"../src/test/Test.tsx"
+	]*/
+}

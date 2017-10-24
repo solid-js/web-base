@@ -1,0 +1,39 @@
+{
+	"name": "solidify-web-base",
+	"version": "0.6.12",
+	"devDependencies": {
+		"@types/gsap": "^1.19.1",
+		"@types/jquery": "^3.2.15",
+		"@types/react": "^16.0.18",
+		"@types/react-dom": "^16.0.2",
+		"grunt": "latest",
+		"grunt-autoprefixer": "latest",
+		"grunt-contrib-clean": "^1.1.0",
+		"grunt-contrib-concat": "latest",
+		"grunt-contrib-cssmin": "latest",
+		"grunt-contrib-imagemin": "latest",
+		"grunt-contrib-less": "latest",
+		"grunt-contrib-uglify": "latest",
+		"grunt-contrib-watch": "latest",
+		"grunt-deployer": "latest",
+		"grunt-exec": "^3.0.0",
+		"grunt-less2js": "latest",
+		"grunt-minimal-config": "latest",
+		"grunt-notify": "latest",
+		"grunt-scaff": "latest",
+		"grunt-ts": "latest",
+		"handlebars": "^4.0.10",
+		"node-sprite-generator": "^0.10.2",
+		"typescript": "latest"
+	},
+	"scripts": {},
+	"private": true,
+	"dependencies": {
+		"gsap": "^1.20.3",
+		"jquery": "^3.2.1",
+		"normalize-css": "^2.3.1",
+		"react": "^16.0.0",
+		"react-dom": "^16.0.0",
+		"tslib": "^1.8.0"
+	}
+}

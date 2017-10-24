@@ -53,10 +53,10 @@ module.exports = function (grunt)
 				'cssmin',
 				'deployer',
 				'imagemin',
-				'json',
+				//'json',
 				'less',
 				'less2js',
-				'ts',
+				//'ts',
 				'scaff',
 				'uglify',
 				'watch'
