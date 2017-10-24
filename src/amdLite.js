@@ -9,6 +9,8 @@ var amdLite = (function ()
 	 */
 	var that = {
 
+		// --------------------------------------------------------------------- PROPERTIES
+
 		/**
 		 * Modules that are already required and initialised.
 		 */
@@ -21,30 +23,67 @@ var amdLite = (function ()
 		 */
 		waitingModules : [],
 
-		// TODO : DOc
+		/**
+		 * Public scope where require API is injected and where from global dependencies are retrieved
+		 */
 		publicScope: window,
 
-		// TODO : DOc
+		/**
+		 * Throw on error.
+		 * If false, will warn in console if verbosity is > 0
+		 */
 		strict: true,
 
-		// TODO : DOc
-		verbosity: 0,
+		/**
+		 * 0 -> quiet
+		 * 1 -> warnings
+		 * 2 -> notices
+		 */
+		verbosity: 1,
 
 		/**
 		 * Modules names mapped to global dependencies.
+		 *
+		 * For example you can map :
+		 * "react" : "React"
+		 * "react-dom" : "ReactDOM"
+		 *
+		 * With this configuration, when module "react" is required,
+		 * "React" from global scope will be served.
+		 *
+		 * Really handy from non AMD compatible libraries or not optimised modules.
 		 */
 		globalDependencies : {},
 
+		/**
+		 * AMD Object injected onto define method.
+		 * Useful so UMD libraries know if they can inject themselves.
+		 * Default is { jQuery : true }
+		 */
 		amdObject: {
 			jQuery: true
 		},
 
+
+		// --------------------------------------------------------------------- INIT
+
 		/**
-		 * TODO : Doc
-		 * @param options TODO : Doc
+		 * Init AMD Lite API.
+		 *
+		 * Those options are available and will override properties on amdLite object :
+		 * - verbosity
+		 * - strict
+		 * - publicScope
+		 * - globalDependencies
+		 * - amdObject
+		 *
+		 * @param options Can override some properties on amdLite object. @see init.
 		 */
 		init : function (options)
 		{
+			// Default options bag
+			var options = (options || {});
+
 			// Override default options.
 			if ('verbosity' in options) 			that.verbosity = options.verbosity;
 			if ('strict' in options) 				that.strict = options.strict;
@@ -58,6 +97,8 @@ var amdLite = (function ()
 
 		/**
 		 * Inject RequireJS public API into public scope.
+		 * Do not call directly.
+		 * @private
 		 */
 		_injectPublicAPI : function ()
 		{
@@ -75,23 +116,31 @@ var amdLite = (function ()
 		},
 
 
+		// --------------------------------------------------------------------- REQUIRE JS PUBLIC API
+		// Here are require JS lite public methods.
 
+		/**
+		 * TODO : DOC
+		 * @param dependencyNames
+		 * @param callback
+		 * @param from
+		 */
 		require: function (dependencyNames, callback, from)
 		{
 			// Require dependencies from root if no origin is given
-			from = (from == null ? '' : from);
+			from = (from || '');
 
-			//console.log('>>>> require', dependencyNames, from);
+			// Log
+			that.verbosity >= 2 && console.info('amdLite.require', dependencyNames, from);
 
 			// Get dependencies
-			var dependencies = getDependencies(dependencyNames, from);
+			var dependencies = that.resolveDependencies(dependencyNames, from);
 
 			// Call back with dependencies
 			callback.apply( null, dependencies );
 		},
 
 		/**
-		 * Set public define API.
 		 * TODO : Doc
 		 * @param name
 		 * @param dependencies
@@ -99,36 +148,51 @@ var amdLite = (function ()
 		 */
 		define: function (name, dependencies, callback)
 		{
-			//
+			// First argument needs to be a string
 			if (typeof name !== 'string')
 			{
-				console.warn('Non optimised AMD module detected.');
+				// If not, we are on a not optimized module
+				let message = 'amdLite.define // Not optimized AMD module detected.';
+				message += '\n@see http://requirejs.org/docs/optimization.html';
+
+				// TODO : Ajouter lien compilateur compileAmd une fois projets sur github + npm
+				//message += '\n@see ';
+
+				// Show message
+				if (that.strict)
+					throw new Error( message );
+				else if (that.verbosity >= 1)
+					console.warn( message );
+
+				// Stop define
 				return;
 			}
 
+			// Add module to waiting modules list
 			that.waitingModules[ name ] = {
 				dependencies: dependencies,
 				callback: callback
 			};
 
-			//console.log('>>>> define', name, dependencies);
+			// Log
+			that.verbosity >= 2 && console.info('amdLite.define //', name, dependencies);
 		},
 
+
+		// --------------------------------------------------------------------- HELPERS
+		// Helper methods.
 
 		/**
 		 * Given a relative module name, like ./something, normalize it to
 		 * a real name that can be mapped to a path.
 		 * @param {String} name the relative name
 		 * @param {String} baseName a real name that the name arg is relative to.
-		 * @param {String} map TODO : DOC
 		 * @returns {String} normalized name
 		 */
-		normalizeModuleName : function (name, baseName, map)
+		normalizeModuleName : function (name, baseName)
 		{
-			var nameParts, nameSegment, mapValue, foundMap,
-				foundI, foundStarMap, starI, i, j, part, normalizedBaseParts,
-				baseParts = baseName && baseName.split("/"),
-				starMap = (map && map['*']) || {};
+			var i, part, normalizedBaseParts,
+				baseParts = baseName && baseName.split("/");
 
 			//Adjust any relative paths.
 			if (name) {
@@ -170,165 +234,162 @@ var amdLite = (function ()
 				name = name.join('/');
 			}
 
-			//Apply map config if available.
-			if ((baseParts || starMap) && map) {
-				nameParts = name.split('/');
-
-				for (i = nameParts.length; i > 0; i -= 1) {
-					nameSegment = nameParts.slice(0, i).join("/");
-
-					if (baseParts) {
-						//Find the longest baseName segment match in the config.
-						//So, do joins on the biggest to smallest lengths of baseParts.
-						for (j = baseParts.length; j > 0; j -= 1) {
-							mapValue = map[baseParts.slice(0, j).join('/')];
-
-							//baseName segment has  config, find if it has one for
-							//this name.
-							if (mapValue) {
-								mapValue = mapValue[nameSegment];
-								if (mapValue) {
-									//Match, update name to the new value.
-									foundMap = mapValue;
-									foundI = i;
-									break;
-								}
-							}
-						}
-					}
-
-					if (foundMap) {
-						break;
-					}
-
-					//Check for a star map match, but just hold on to it,
-					//if there is a shorter segment match later in a matching
-					//config, then favor over this star map.
-					if (!foundStarMap && starMap && starMap[nameSegment]) {
-						foundStarMap = starMap[nameSegment];
-						starI = i;
-					}
-				}
-
-				if (!foundMap && foundStarMap) {
-					foundMap = foundStarMap;
-					foundI = starI;
-				}
-
-				if (foundMap) {
-					nameParts.splice(0, foundI, foundMap);
-					name = nameParts.join('/');
-				}
-			}
-
 			return name;
+		},
+
+
+		// --------------------------------------------------------------------- DEPENDENCIES RESOLVING
+		// Here we tries to convert a dependency name to modules .
+
+		/**
+		 * Get defined modules from relative dependency names.
+		 *
+		 * Ex : resolveDependencies(['my/dependency/', 'react'])
+		 * Will return an array of defined modules from those names.
+		 *
+		 * @param dependencyNames Dependency names relatives from "from" argument
+		 * @param from Original path from where to require.
+		 * @return an array of defined modules.
+		 */
+		resolveDependencies : function ( dependencyNames, from )
+		{
+			// Browse dependency names
+			return dependencyNames.map( function (dependencyName)
+			{
+				// Normalize path from root
+				var dependencyPath = that.normalizeModuleName( dependencyName, from );
+
+				// Get dependency instance
+				var dependencyInstance = that.resolveDependency( dependencyPath );
+
+				// If this dependency is not found
+				if (dependencyInstance == null)
+				{
+					var message = 'amdLite.resolveDependencies // Module ' + dependencyPath + ' not found.';
+					if (that.strict)
+						throw new Error( message );
+					else if (that.verbosity >= 1)
+						console.warn( message );
+				}
+
+				// Return required dependency instance
+				return dependencyInstance;
+			});
+		},
+
+		/**
+		 * Resolve a dependency from its path.
+		 *
+		 * Will check if path is :
+		 * - a special case (1)
+		 * - a global dependency
+		 * - a ready module
+		 * - a waiting module (2)
+		 *
+		 * (1) Special cases :
+		 * - "require" will resolve to require method.
+		 * - "exports" will resolve to a new empty object (for exports statements)
+		 *
+		 * (2) If module is in waiting list, module will be initialized and will go to
+		 * the ready modules list.
+		 *
+		 * @param dependencyPath Absolute path to the dependency. Path needs to be normalized at this point.
+		 * @throws Error if exports statement not found when initializing module.
+		 * @returns Found module public API.
+		 */
+		resolveDependency : function (dependencyPath)
+		{
+			// Special case : require
+			if (dependencyPath == 'require')
+			{
+				return require;
+			}
+
+			// Special case : exports statement
+			else if (dependencyPath == 'exports')
+			{
+				return {};
+			}
+
+			// Check if module is a global dependency
+			else if (dependencyPath in that.globalDependencies)
+			{
+				// Get global dependency name
+				var dependencyGlobalName = that.globalDependencies[ dependencyPath ];
+
+				return (
+					// If this dependency is not in the global scope
+					!(dependencyGlobalName in that.publicScope)
+					? null
+
+					// Return global module
+					: that.publicScope[ dependencyGlobalName ]
+				)
+			}
+
+			// Check if module is ready
+			else if (dependencyPath in that.readyModules)
+			{
+				return that.readyModules[ dependencyPath ];
+			}
+
+			// Check if module is not ready but defined and in waiting list
+			else if (dependencyPath in that.waitingModules)
+			{
+				// Get module building info from waiting list
+				var moduleToBuild = that.waitingModules[ dependencyPath ];
+
+				// Get index for exports statement
+				var exportsIndex = moduleToBuild.dependencies.indexOf('exports');
+
+				// If exports statement is not found in module dependencies
+				if (exportsIndex == -1)
+				{
+					// Error message
+					var message = 'amdLite.resolveDependency // Exports statement not found for module ' + dependencyPath;
+					if (that.strict)
+						throw new Error( message );
+					else if (that.verbosity >= 1)
+						console.warn( message );
+					return null;
+				}
+
+				// Resolve waiting module dependencies recursively
+				var dependencies = that.resolveDependencies(
+					moduleToBuild.dependencies,
+					dependencyPath
+				);
+
+				// Call module callback with resolved dependencies
+				moduleToBuild.callback.apply( null, dependencies );
+
+				// Retrieve exports object from its index
+				// Module public API is this very object
+				var buildModule = dependencies[ exportsIndex ];
+
+				// Register this module as ready
+				that.readyModules[ dependencyPath ] = buildModule;
+				delete that.waitingModules[ dependencyPath ];
+
+				// Return module
+				return buildModule;
+			}
+
+			// Not found
+			else return null;
 		}
 	};
 
+	// ------------------------------------------------------------------------- AUTO INIT
 
-
-
-
-
-	/**
-	 * Get dependencies instances from relative names.
-	 * @param dependencyNames Dependency names relatives from "from" argument
-	 * @param from Original path from where to require.
-	 */
-	var getDependencies = function ( dependencyNames, from )
-	{
-		// Browse dependency names
-		return dependencyNames.map( function (dependencyName)
-		{
-			// Normalize path from root
-			var dependencyPath = that.normalizeModuleName( dependencyName, from );
-
-			// Get dependency instance
-			var dependencyInstance = getDependency( dependencyPath );
-
-			// If this dependency is not found
-			if (dependencyInstance == null)
-			{
-				console.warn('Module '+ dependencyPath +' not found');
-			}
-
-			// Return required dependency instance
-			return dependencyInstance;
-		});
-	};
-
-	/**
-	 *
-	 * @param dependencyPath
-	 * @returns {*}
-	 */
-	var getDependency = function (dependencyPath)
-	{
-		if (dependencyPath == 'require')
-		{
-			return require;
-		}
-
-		else if (dependencyPath == 'exports')
-		{
-			return {};
-		}
-
-		else if (dependencyPath in that.globalDependencies)
-		{
-			var dependencyGlobalName = that.globalDependencies[ dependencyPath ];
-			if (!(dependencyGlobalName in window))
-			{
-				console.warn('Global dependency ' + dependencyGlobalName + ' not found.');
-				return null;
-			}
-			return that.publicScope[ dependencyGlobalName ];
-		}
-
-		else if (dependencyPath in that.readyModules)
-		{
-			return that.readyModules[ dependencyPath ];
-		}
-
-		else if (dependencyPath in that.waitingModules)
-		{
-			var moduleToBuild = that.waitingModules[ dependencyPath ];
-
-			//console.log('module to build', dependencyPath, moduleToBuild.dependencies);
-
-			var dependencies = getDependencies(
-				moduleToBuild.dependencies,
-				dependencyPath
-			);
-
-			var exportsIndex = moduleToBuild.dependencies.indexOf('exports');
-
-			if (exportsIndex == -1)
-			{
-				console.warn('Invalid exports index');
-				return null;
-			}
-
-			moduleToBuild.callback.apply( null, dependencies );
-
-			var buildModule = dependencies[ exportsIndex ];
-
-			that.readyModules[ dependencyPath ] = buildModule;
-
-			delete that.waitingModules[ dependencyPath ];
-
-			return buildModule;
-		}
-
-		else return null;
-	};
-
-
-	// TODO : DOC
+	// If define is already in window
+	// Init with default parameters
+	// This to auto-enable without calling amdLite API
 	if ('define' in window)
 	{
 		that.init({});
 	}
 
+	// Return public scope as amdLite
 	return that;
 })();

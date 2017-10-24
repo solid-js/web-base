@@ -3,7 +3,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-
 import {RandomComponent} from "../common/components/randomComponent/RandomComponent";
 import {MyApp1Component} from "../myApp1/components/myApp1Component/MyApp1Component";
 
@@ -15,6 +14,8 @@ export class Main
 			<RandomComponent />,
 			$('.AppContainer')[0]
 		);
+
+		let jquery:JQuery = $('.test');
 
 		let test = new MyApp1Component();
 	}

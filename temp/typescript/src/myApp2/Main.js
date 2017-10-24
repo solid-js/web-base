@@ -4,6 +4,7 @@ define(["require", "exports", "react", "react-dom", "../common/components/random
     var Main = (function () {
         function Main() {
             ReactDOM.render(React.createElement(RandomComponent_1.RandomComponent, null), $('.AppContainer')[0]);
+            var jquery = $('.test');
             var test = new MyApp1Component_1.MyApp1Component();
         }
         return Main;

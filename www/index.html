@@ -17,17 +17,6 @@
 
 	<!-- SCRIPTS -->
 	<script src="assets/js/static-libs.js"></script>
-	<script src="../src/amdLite.js"></script>
-	<script>
-	  amdLite.init({
-			verbosity: 0,
-			strict: false,
-			globalDependencies: {
-				'react' : 'React',
-				'react-dom' : 'ReactDOM'
-			}
-		});
-	</script>
 	<script src="assets/js/common.js"></script>
 	<script src="assets/js/my-app-1.js"></script>
 	<script src="assets/js/my-app-2.js"></script>
@@ -40,21 +29,17 @@
 	<script>
 
 		// Bootstraping main javascript app
+
+		require(['src/myApp1/Main'], function (MainModule)
+		{
+			new MainModule.Main();
+		});
+
 		require(['src/myApp2/Main'], function (MainModule)
 		{
-			console.log('MODULE :', MainModule);
-
 			new MainModule.Main();
-			/*
-			var app = new MainModule.Main({
-				// Target root node
-				root	: $('.AppContainer'),
-
-				locale	: '',
-				base	: ''
-			});
-			*/
 		});
+
 	</script>
 </body>
 </html>

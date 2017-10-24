@@ -14,8 +14,7 @@ module.exports = function (grunt)
 			// Default search sentence
 			search: 'define(',
 
-			strict: false,
-
+			// Do not optimize and compile AMD, just concat files
 			justConcat: false
 		});
 
@@ -96,14 +95,8 @@ module.exports = function (grunt)
 					// Inject module content
 					newFileContent += fileContent.substring(insertionIndex, fileContent.length) + '\n\n';
 
-					// Count this as patched module
+					// Count this as optimized module
 					totalModules ++;
-				}
-
-				// Stop compilation if we are in strict mode
-				else if (options.strict)
-				{
-					grunt.log.error('Non AMD module detected ' + moduleName)
 				}
 			}
 
