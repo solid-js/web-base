@@ -1,8 +1,13 @@
 {
-	"compilerOptions": {
-		"outDir": "temp/typescript",
-		//"outFile" : "temp/typescript.js",
+	/**
+	 * More help :
+	 * https://www.typescriptlang.org/docs/handbook/compiler-options.html
+	 */
 
+	"compilerOptions": {
+
+		// Compile every files and keep architecture
+		"outDir": "build/temp/typescript",
 		"rootDir" : ".",
 
 		// Module system and ECMA version target
@@ -12,46 +17,51 @@
 		// Enabled libs
 		"lib": ["es6", "dom"],
 
+		// Fallback iterator to ES5
+		"downlevelIteration" : true,
+
 		// Disable sourceMaps compilation
 		"sourceMap": false,
 
-		// Allow node_modules import
-		"allowJs": true,
+		// Allow js files loading
+		//"allowJs": true,
 
-		// Enable JSX transpiling
+		// Disable node module resolution
+		"moduleResolution" : "classic",
+
+		// Force import statements to have to right case
+		"forceConsistentCasingInFileNames" : true,
+
+		// Transpiling options
+		"removeComments" : true,
+		"noImplicitUseStrict" : true,
+
+		// Enable JSX transpiling with react
 		"jsx": "react",
 
+		// Experimental decorators
+		//"emitDecoratorMetadata" : true,
+		//"experimentalDecorators" : true,
 
-
-		// Compiler options
-		//"noImplicitReturns": true,
-		//"noImplicitThis": true,
-		//"noImplicitAny": true,
-		"strictNullChecks": true,
+		// Type checking options
 		"preserveConstEnums" : false,
-		//"noResolve" : false,
-		"pretty" : true,
 		"allowUnreachableCode" : true,
-		"downlevelIteration" : true,
 
+		// Disable helpers because we include them once as a static lib
 		"importHelpers" : false,
-		"noEmitHelpers" : true
+		"noEmitHelpers" : true,
 
-
-		/*
-		"moduleResolution" : "node",
-		"baseUrl" : ".",
-		"typeRoots": ["node_modules/@types"]
-		*/
+		// Console options
+		"pretty" : true
+		//"listFiles" : true // Can be useful to detect why compilation is slow
+		//"diagnostics" : true // Show a lot of informations about compilation time
 	},
+
 	"exclude": [
 		"node_modules"
 	],
+
 	"include" : [
 		"src/**/Main.tsx"
 	]
-	/*
-	"include": [
-		"../src/test/Test.tsx"
-	]*/
 }

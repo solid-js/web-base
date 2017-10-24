@@ -2,7 +2,7 @@
 
 module.exports = function (grunt)
 {
-	var typescriptRoot = 'temp/typescript/';
+	var typescriptRoot = 'build/temp/typescript/';
 	var allJsFiles = '**/*.js';
 	var assetsDestination = 'www/assets/';
 	var nodeModules = 'node_modules/';
