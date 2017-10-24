@@ -1,12 +1,3 @@
-/**
- * Public requirejs API
- */
-var requirejs, require;
-
-/**
- * Public define API
- */
-var define;
 
 /**
  * AMD Lite public API
@@ -26,39 +17,61 @@ var amdLite = (function ()
 		/**
 		 * Modules defined but never required yet.
 		 * Every item contains a callback and dependency list.
+		 * Required modules are removed from this list and added to the readyModules list.
 		 */
 		waitingModules : [],
 
+		// TODO : DOc
+		publicScope: window,
+
+		// TODO : DOc
+		strict: true,
+
+		// TODO : DOc
+		verbosity: 0,
+
 		/**
-		 * Inject RequireJS public API into public scope.
-		 * @param publicScope Public scope to inject API in. Default is window.
+		 * Modules names mapped to global dependencies.
 		 */
-		injectPublicAPI : function (publicScope)
-		{
-			// Default public scope is window
-			publicScope = (publicScope == null ? window : publicScope);
+		globalDependencies : {},
 
-			// Set requirejs and require methods
-			publicScope['requirejs'] = publicScope['require'] = that.require;
-
-			// Expose ready defined modules onto requirejs for maximum compatibility
-			publicScope['requirejs']._defined = that.readyModules;
-
-			// Expose define method
-			publicScope['define'] = that.define;
-
-			// TODO : Rendre paramétrable
-			// Expose AMD object
-			publicScope['define'].amd = {
-				jQuery: true
-			};
+		amdObject: {
+			jQuery: true
 		},
 
-		// TODO : Rendre accessible en public
+		/**
+		 * TODO : Doc
+		 * @param options TODO : Doc
+		 */
+		init : function (options)
+		{
+			// Override default options.
+			if ('verbosity' in options) 			that.verbosity = options.verbosity;
+			if ('strict' in options) 				that.strict = options.strict;
+			if ('publicScope' in options)			that.publicScope = options.publicScope;
+			if ('globalDependencies' in options)	that.globalDependencies = options.globalDependencies;
+			if ('amdObject' in options)				that.amdObject = options.amdObject;
 
-		mappedDependencies : {
-			'react-dom' : 'ReactDOM',
-			'react' : 'React'
+			// Inject amd lite API into public scope.
+			this._injectPublicAPI()
+		},
+
+		/**
+		 * Inject RequireJS public API into public scope.
+		 */
+		_injectPublicAPI : function ()
+		{
+			// Set requirejs and require methods
+			that.publicScope['requirejs'] = that.publicScope['require'] = that.require;
+
+			// Expose ready defined modules onto requirejs for maximum compatibility
+			that.publicScope['requirejs']._defined = that.readyModules;
+
+			// Expose define method
+			that.publicScope['define'] = that.define;
+
+			// Expose AMD object
+			that.publicScope['define'].amd = that.amdObject;
 		},
 
 
@@ -68,7 +81,7 @@ var amdLite = (function ()
 			// Require dependencies from root if no origin is given
 			from = (from == null ? '' : from);
 
-			console.log('>>>> require', dependencyNames, from);
+			//console.log('>>>> require', dependencyNames, from);
 
 			// Get dependencies
 			var dependencies = getDependencies(dependencyNames, from);
@@ -251,8 +264,6 @@ var amdLite = (function ()
 	 */
 	var getDependency = function (dependencyPath)
 	{
-		//console.log('GET DEP', dependencyPath);
-
 		if (dependencyPath == 'require')
 		{
 			return require;
@@ -263,15 +274,15 @@ var amdLite = (function ()
 			return {};
 		}
 
-		else if (dependencyPath in that.mappedDependencies)
+		else if (dependencyPath in that.globalDependencies)
 		{
-			var dependencyGlobalName = that.mappedDependencies[ dependencyPath ];
+			var dependencyGlobalName = that.globalDependencies[ dependencyPath ];
 			if (!(dependencyGlobalName in window))
 			{
 				console.warn('Global dependency ' + dependencyGlobalName + ' not found.');
 				return null;
 			}
-			return window[ dependencyGlobalName ];
+			return that.publicScope[ dependencyGlobalName ];
 		}
 
 		else if (dependencyPath in that.readyModules)
@@ -283,7 +294,7 @@ var amdLite = (function ()
 		{
 			var moduleToBuild = that.waitingModules[ dependencyPath ];
 
-			console.log('module to build', dependencyPath, moduleToBuild.dependencies);
+			//console.log('module to build', dependencyPath, moduleToBuild.dependencies);
 
 			var dependencies = getDependencies(
 				moduleToBuild.dependencies,
@@ -313,9 +324,11 @@ var amdLite = (function ()
 	};
 
 
-	// TODO : Rendre optionnel
-
-	that.injectPublicAPI();
+	// TODO : DOC
+	if ('define' in window)
+	{
+		that.init({});
+	}
 
 	return that;
 })();
