@@ -3,13 +3,16 @@ var moduleNameNormalizer = require('./utils/module-name-normalizer');
 
 module.exports = function (grunt)
 {
-	grunt.registerMultiTask('compileAmd', 'Compile modules to AMD', function ()
+	grunt.registerMultiTask('compileAmd', 'Compile and optimize AMD modules.', function ()
 	{
 		// Get default options
 		var options = this.options({
 
+			// Default modules root
+			root : '',
+
 			// Default var name
-			varName: '__FILE',
+			varName: null, //'__FILE',
 
 			// Default search sentence
 			search: 'define(',
@@ -90,7 +93,10 @@ module.exports = function (grunt)
 					newFileContent += fileContent.substring(firstIndex, insertionIndex) + "\n";
 
 					// Inject our variable
-					newFileContent += "    var " + options.varName + " = '" + moduleName + "';";
+					if (options.varName != null && options.varName.length > 0)
+					{
+						newFileContent += "    var " + options.varName + " = '" + moduleName + "';";
+					}
 
 					// Inject module content
 					newFileContent += fileContent.substring(insertionIndex, fileContent.length) + '\n\n';
@@ -107,4 +113,43 @@ module.exports = function (grunt)
 		// Show our satisfaction
 		grunt.log.oklns( totalModules + ' modules compiled.' );
 	});
+
+	// Nasty check to verify if we have the addUglifyTargets options.
+	// We need to do that so uglify targets can be altered even if we don't use "compileAmd" task
+	if (grunt.config('compileAmd.options.addUglifyTargets'))
+	{
+		// If there is no uglify node
+		if (grunt.config('uglify') == null)
+		{
+			// Stop here
+			grunt.log.fail('compileAmd can\'t add uglify targets if uglify config node is not present.');
+		}
+
+		// Get compile AMD config
+		var targets = grunt.config('compileAmd');
+
+		// Browser targets
+		for (var i in targets)
+		{
+			// options is not a target
+			if (i === 'options') continue;
+
+			// Target target lol
+			var currentTarget = targets[ i ];
+
+			// If there is no "dest" in this target
+			if (!('dest' in currentTarget))
+			{
+				// Show our disappointment and do not alter uglify config
+				grunt.log.warn('compileAmd can\'t add uglify config for target "' + i + '" because no dest parameter was found.');
+				continue;
+			}
+
+			// Added uglify config from compileAmd targets
+			grunt.config('uglify.' + i, {
+				src: currentTarget.dest,
+				dest: currentTarget.dest
+			});
+		}
+	}
 };

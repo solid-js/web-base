@@ -1,6 +1,6 @@
 {
 	/**
-	 * More help :
+	 * Help and usage :
 	 * https://www.typescriptlang.org/docs/handbook/compiler-options.html
 	 */
 
@@ -57,11 +57,16 @@
 		//"diagnostics" : true // Show a lot of informations about compilation time
 	},
 
+	// Excluded globs
 	"exclude": [
 		"node_modules"
 	],
 
+	// Always included files, even if they are not in the dependency tree
+	// Useful for dynamically used modules like pages
+	// No module separation at this point, we compile every apps entry points
 	"include" : [
-		"src/**/Main.tsx"
+		"src/**/Main.*",
+		"src/**/pages/**/*.*"
 	]
 }
