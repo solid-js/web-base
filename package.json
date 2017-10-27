@@ -15,6 +15,7 @@
 		"@types/react-dom": "^16.0.2",
 		"@types/three": "^0.84.27",
 		"grunt": "^1.0.1",
+		"grunt-amd-compile": "^1.0.0",
 		"grunt-contrib-clean": "^1.1.0",
 		"grunt-contrib-less": "^1.4.1",
 		"grunt-contrib-uglify": "^3.1.0",

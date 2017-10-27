@@ -163,14 +163,16 @@ module.exports = function (grunt)
 
 	// ------------------------------------------------------------------------- TYPESCRIPT
 
+
 	grunt.loadNpmTasks('grunt-ts');
 	grunt.config('ts', {
 		default: {
 			options: {
-				// Compile every files and keep architecture for AMD optimization
-				outDir : amdFilesRoot,
-				rootDir : '.'
+				rootDir : '.',
 			},
+
+			// Compile every files and keep architecture for AMD optimization
+			outDir : amdFilesRoot,
 
 			// Load tsconfig.json file
 			tsconfig: true
@@ -181,9 +183,7 @@ module.exports = function (grunt)
 	// ------------------------------------------------------------------------- AMD BUNDLING
 
 	// Load local grunt tasks after config is loaded
-	// FIXME : TEMP, push it to npm
-	grunt.task.loadTasks('build/grunt-tasks/');
-
+	grunt.loadNpmTasks('grunt-amd-compile');
 	grunt.config('amdCompile', {
 
 		options: {
@@ -206,16 +206,14 @@ module.exports = function (grunt)
 			 * Use "grunt uglify" to uglify all amdCompile targets.
 			 * Use "grunt uglify:common" to uglify only "common" amdCompile target.
 			 */
-			addUglifyTargets : true,
-
-			// TODO ? Can be useful !
-			//addLessTargets : true,
-
-			// TODO ? No need i guess ..
-			addWatchTargets : true
+			addUglifyTargets : true
 		},
 
-		// Our project static libraries
+		/**
+		 * Our project static libraries
+		 * No AMD optimization, we just concat every files into one big bundle.
+		 * IMPORTANT : Not found files here will not throw error or warning, be careful when adding a file path
+		 */
 		staticLibs: {
 
 			options: {
@@ -264,9 +262,11 @@ module.exports = function (grunt)
 			dest: assetsDestination + 'js/static-libs.js'
 		},
 
-		// Common project modules.
-		// Here are all common components or pages to all apps
-		// Uses static libs.
+		/**
+		 * Common project modules.
+		 * Here are all common components or pages to all apps
+		 * Uses static libs.
+		 */
 		common: {
 			files: [
 				amdFilesRoot + 'lib/' + allJsFiles,
@@ -275,15 +275,19 @@ module.exports = function (grunt)
 			dest: assetsDestination + 'js/common.js'
 		},
 
-		// App target
-		// Uses static libs and common modules.
+		/**
+		 * App target
+		 * Uses static libs and common modules.
+		 */
 		myApp1: {
 			src: amdFilesRoot + 'src/myApp1/' + allJsFiles,
 			dest: assetsDestination + 'js/my-app-1.js'
 		},
 
-		// App target
-		// Uses static libs and common modules.
+		/**
+		 * App target
+		 * Uses static libs and common modules.
+		 */
 		myApp2: {
 			src: amdFilesRoot + 'src/myApp2/' + allJsFiles,
 			dest: assetsDestination + 'js/my-app-2.js'
@@ -366,6 +370,7 @@ module.exports = function (grunt)
 		}
 	});
 
+
 	// ------------------------------------------------------------------------- TASKS
 
 	/**
@@ -394,9 +399,7 @@ module.exports = function (grunt)
 	for (var i in amdCompileTargets)
 	{
 		if (i !== 'staticLibs' && i !== 'options')
-		{
 			scriptsWithoutStaticLibsTasks.push('amdCompile:' + i);
-		}
 	}
 	grunt.registerTask('scriptsWithoutStaticLibs', scriptsWithoutStaticLibsTasks);
 
