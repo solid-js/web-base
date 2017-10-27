@@ -6,10 +6,6 @@
 
 	"compilerOptions": {
 
-		// Compile every files and keep architecture
-		"outDir": "build/temp/typescript",
-		"rootDir" : ".",
-
 		// Module system and ECMA version target
 		"module" : "amd",
 		"target": "es5",

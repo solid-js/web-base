@@ -20,6 +20,7 @@
 		"grunt-contrib-uglify": "^3.1.0",
 		"grunt-contrib-watch": "^1.0.0",
 		"grunt-deployer": "^0.4.0",
+		"grunt-less2js": "^0.1.5",
 		"grunt-minimal-config": "^0.5.4",
 		"grunt-notify": "^0.4.5",
 		"grunt-scaff": "^0.2.0",

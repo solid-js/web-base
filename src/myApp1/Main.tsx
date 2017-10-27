@@ -6,6 +6,8 @@ import * as THREE from 'three';
 
 import {StringUtils} from "../../lib/solidify/utils/StringUtils";
 
+declare const __atoms:{[index:string]:string};
+
 
 export class Main
 {
@@ -22,5 +24,7 @@ export class Main
 		let renderer = new THREE.WebGLRenderer();
 
 		console.log( renderer );
+
+		console.log( __atoms );
 	}
 }

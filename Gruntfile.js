@@ -4,9 +4,15 @@ module.exports = function (grunt)
 {
 	// ------------------------------------------------------------------------- CONFIG
 
+	/**
+	 * Read --optimized CLI option.
+	 * If this option is added, bundles will be compressed.
+	 */
 	var optimizedTarget = grunt.option('optimized') || false;
 
-	var typescriptRoot = 'build/temp/typescript/';
+
+
+	var amdFilesRoot = 'build/temp/amd/';
 	var allJsFiles = '**/*.js';
 	var allTsFiles = '**/*.(ts|tsx)';
 	var allLessFiles = '**/*.less';
@@ -16,6 +22,9 @@ module.exports = function (grunt)
 	var srcPath = 'src/';
 
 	//var LessPluginAutoPrefix = require('less-plugin-autoprefix');
+
+
+	// TODO : https://github.com/dylang/grunt-notify
 
 	grunt.loadNpmTasks('grunt-wakeup');
 
@@ -28,6 +37,7 @@ module.exports = function (grunt)
 		success: {
 			options: {
 				sound: 'looking-up',
+				//sound: 'gentle-roll',
 				notifications: false,
 				output: false
 			}
@@ -66,8 +76,8 @@ module.exports = function (grunt)
 
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.config('clean', {
-		typescript: {
-			src: typescriptRoot + allJsFiles
+		amd: {
+			src: amdFilesRoot + allJsFiles
 		}
 	});
 
@@ -77,20 +87,29 @@ module.exports = function (grunt)
 	// Less plugins
 	var lessPlugins = [
 
-		// Glob import plugin to allow importing folders in less
-		new require('less-plugin-glob'),
+		/**
+		 * Glob import plugin to allow importing folders in less :
+		 * @import 'components/**';
+		 */
+		require('less-plugin-glob'),
 
-		// Auto-prefixer plugin to add vendor specific prefix
+		/**
+		 * Auto-prefixer plugin to add vendor specific prefix
+		 */
 		new (require('less-plugin-autoprefix'))({
+
+			// BrowersList syntax : https://github.com/ai/browserslist
 			browsers: [
 				'last 3 versions',
 				'ie >= 11',
-				'ios >= 8'
+				'iOS >= 8'
 			]
 		})
 	];
 
-	// Add clean CSS less plugin if we are in optimizedTarget
+	/**
+	 * Compress CSS if we have the --optimized option.
+	 */
 	optimizedTarget && lessPlugins.push(
 		new (require('less-plugin-clean-css'))({
 			advanced: true
@@ -121,11 +140,39 @@ module.exports = function (grunt)
 		}
 	});
 
+
+	// ------------------------------------------------------------------------- LESS 2 JS
+
+	grunt.loadNpmTasks('grunt-less2js');
+	grunt.config('less2js', {
+		/**
+		 * Extract top level less atom variables and store them as json.
+		 * So JS runtime is aware of those variables without manually copying them.
+		 * https://github.com/ixrock/grunt-less2js
+		 */
+		atoms: {
+			options: {
+				format: 'webjs',
+				windowVariable: '__atoms',
+				parseNumbers: true
+			},
+			src: srcPath + 'common/atoms/*.less',
+			dest: amdFilesRoot + 'src/common/atoms/Atoms.js'
+		}
+	});
+
 	// ------------------------------------------------------------------------- TYPESCRIPT
 
 	grunt.loadNpmTasks('grunt-ts');
 	grunt.config('ts', {
 		default: {
+			options: {
+				// Compile every files and keep architecture for AMD optimization
+				outDir : amdFilesRoot,
+				rootDir : '.'
+			},
+
+			// Load tsconfig.json file
 			tsconfig: true
 		}
 	});
@@ -137,34 +184,34 @@ module.exports = function (grunt)
 	// FIXME : TEMP, push it to npm
 	grunt.task.loadTasks('build/grunt-tasks/');
 
-	grunt.config('compileAmd', {
+	grunt.config('amdCompile', {
 
 		options: {
 			/**
 			 * AMD modules root. When optimizing AMD modules, we need to know where is the base.
 			 *
 			 * Example, if we have a module in this file architecture :
-			 * temp/typescript/my/Module.js
+			 * temp/amd/my/Module.js
 			 *
 			 * Default optimization path will be :
-			 * temp/typescript/my/Module
+			 * temp/amd/my/Module
 			 *
 			 * But if the module path wanted is in fact "my/Module"
-			 * set root to "temp/typescript/"
+			 * set root to "temp/amd/"
 			 */
-			root: typescriptRoot,
+			root: amdFilesRoot,
 
 			/**
-			 * Added grunt uglify targets from this config.
-			 * Use "grunt uglify" to uglify all compileAmd targets.
-			 * Use "grunt uglify:common" to uglify only "common" compileAmd target.
+			 * Add grunt uglify targets from this config.
+			 * Use "grunt uglify" to uglify all amdCompile targets.
+			 * Use "grunt uglify:common" to uglify only "common" amdCompile target.
 			 */
 			addUglifyTargets : true,
 
+			// TODO ? Can be useful !
+			//addLessTargets : true,
 
-			addLessTargets : true,
-
-
+			// TODO ? No need i guess ..
 			addWatchTargets : true
 		},
 
@@ -183,15 +230,15 @@ module.exports = function (grunt)
 				// React lib
 				(
 					optimizedTarget
-						? nodeModulesPath + 'react/umd/react.production.min.js'
-						: nodeModulesPath + 'react/umd/react.development.js'
+					? nodeModulesPath + 'react/umd/react.production.min.js'
+					: nodeModulesPath + 'react/umd/react.development.js'
 				),
 
 				// React-dom lib
 				(
 					optimizedTarget
-						? nodeModulesPath + 'react-dom/umd/react-dom.production.min.js'
-						: nodeModulesPath + 'react-dom/umd/react-dom.development.js'
+					? nodeModulesPath + 'react-dom/umd/react-dom.production.min.js'
+					: nodeModulesPath + 'react-dom/umd/react-dom.development.js'
 				),
 
 				// Three lib
@@ -212,7 +259,7 @@ module.exports = function (grunt)
 
 				// Include AMD Lite module system and its configuration
 				nodeModulesPath + 'amd-lite/amdLite.min.js',
-				srcPath + 'common/configs/amdLite.config.js'
+				srcPath + 'common/config/amdLite.config.js'
 			],
 			dest: assetsDestination + 'js/static-libs.js'
 		},
@@ -222,8 +269,8 @@ module.exports = function (grunt)
 		// Uses static libs.
 		common: {
 			files: [
-				typescriptRoot + 'lib/' + allJsFiles,
-				typescriptRoot + 'src/common/' + allJsFiles
+				amdFilesRoot + 'lib/' + allJsFiles,
+				amdFilesRoot + 'src/common/' + allJsFiles
 			],
 			dest: assetsDestination + 'js/common.js'
 		},
@@ -231,14 +278,14 @@ module.exports = function (grunt)
 		// App target
 		// Uses static libs and common modules.
 		myApp1: {
-			src: typescriptRoot + 'src/myApp1/' + allJsFiles,
+			src: amdFilesRoot + 'src/myApp1/' + allJsFiles,
 			dest: assetsDestination + 'js/my-app-1.js'
 		},
 
 		// App target
 		// Uses static libs and common modules.
 		myApp2: {
-			src: typescriptRoot + 'src/myApp2/' + allJsFiles,
+			src: amdFilesRoot + 'src/myApp2/' + allJsFiles,
 			dest: assetsDestination + 'js/my-app-2.js'
 		}
 	});
@@ -259,51 +306,110 @@ module.exports = function (grunt)
 
 	// ------------------------------------------------------------------------- WATCH
 
+	/**
+	 * Watch configuration
+	 */
 	grunt.config('watch', {
-		options: {
-			//interval: 200,
 
+		options: {
+			// File watch interval, default is 100
+			// Higher value is slower to detect changes but can save some laptop batteries
+			//interval: 300,
+
+			// Trigger livereload after each watch task
 			livereload: true,
 
+			// New change can interrupt previous spawned task
 			interrupt: true,
 
+			// Spawn tasks into new process
 			spawn: false
 		},
 
 		/**
-		 * Clean typescript compiled files when a typescript file is removed.
+		 * Remove all AMD files when a Typescript file is removed.
 		 */
 		typescriptClean : {
 			options: {
 				event: ['deleted']
 			},
 			files : srcPath + allTsFiles,
-			tasks: ['clean:typescript']
+			tasks: ['clean:amd'] // FIXME : + scriptsWithoutStaticLibs ?
 		},
 
 		/**
-		 * Compile all scripts when any typescript file is updated.
+		 * Compile all scripts when any Typescript file is updated.
+		 * Do not re-bundle static-libs when a Typescript file is updated.
 		 */
 		scripts : {
 			files : srcPath + allTsFiles,
+			tasks: ['scriptsWithoutStaticLibs', 'wakeup:success']
+		},
 
-			// FIXME : How to avoid static-libs here ?
-			tasks: ['scripts', 'wakeup:success']
+		/**
+		 * Compile less and AMD when an atom definition is changed.
+		 * This is because Atoms are shared between styles and scripts.
+		 * No need for Typescript compilation.
+		 */
+		atoms : {
+			files : srcPath + 'common/atoms/*.less',
+			tasks: ['styles', 'amdCompile']
+		},
+
+		/**
+		 * Compile styles when any less file is changed.
+		 * No need for less2js task because we take care of it with watch.atoms
+		 */
+		styles : {
+			files : srcPath + allLessFiles,
+			tasks: ['less']
 		}
 	});
 
 	// ------------------------------------------------------------------------- TASKS
 
-	var scriptsTasks = ['ts:default', 'compileAmd'];
+	/**
+	 * Full styles task.
+	 * 1. Convert atoms from less to json. Stored into not optimized AMD files tree.
+	 * 2. Compile less apps to code-splitted bundles.
+	 */
+	grunt.registerTask('styles', 'less2js:atoms', 'less');
 
+	/**
+	 * Full script task.
+	 * 1. Compile Typescript to not optimized AMD files tree.
+	 * 2. Compile AMD modules to code-splitted bundles.
+	 * 3. Uglify bunles if we have --optimized option.
+	 */
+	var scriptsTasks = ['ts:default', 'amdCompile'];
 	optimizedTarget && scriptTasks.push('uglify');
-
 	grunt.registerTask('scripts', scriptsTasks);
 
-	grunt.registerTask('styles', 'less');
+	/**
+	 * Script tasks, but without static libs bundling.
+	 * Static libs do not need to be bundled when a Typescript source file is changed.
+	 */
+	var scriptsWithoutStaticLibsTasks = ['ts:default'];
+	var amdCompileTargets = grunt.config('amdCompile');
+	for (var i in amdCompileTargets)
+	{
+		if (i !== 'staticLibs' && i !== 'options')
+		{
+			scriptsWithoutStaticLibsTasks.push('amdCompile:' + i);
+		}
+	}
+	grunt.registerTask('scriptsWithoutStaticLibs', scriptsWithoutStaticLibsTasks);
 
+	/**
+	 * Default task.
+	 * 1. Clean AMD files tree and stuff.
+	 * 2. Compile styles (before because we need atoms).
+	 * 3. Compile scripts and uglify bundles if needed.
+	 */
+	grunt.registerTask('default', ['clean', 'styles', 'scripts', 'wakeup:success']);
 
-	grunt.registerTask('default', ['clean', 'scripts', 'styles', 'wakeup:success']);
-
+	/**
+	 * Watch task.
+	 */
 	grunt.registerTask('watch', ['default', 'watch']);
 };

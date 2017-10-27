@@ -1,23 +1,69 @@
-// Load the module name normalizer tool
-var moduleNameNormalizer = require('./utils/module-name-normalizer');
 
 module.exports = function (grunt)
 {
-	grunt.registerMultiTask('compileAmd', 'Compile and optimize AMD modules.', function ()
+	// ------------------------------------------------------------------------- HELPERS
+
+	/**
+	 * Normalize a module path from a root.
+	 * It will exclude this root from path and also the file extension.
+	 *
+	 * Ex : "temp/subfolder/lib/provider/LibName.ts"
+	 * Become : "lib/provider/LibName"
+	 * With root "temp/subfolder"
+	 *
+	 * @param modulePath Path with extension and root
+	 * @param root Part to remove from modulePath
+	 */
+	var normalizeModulePathFromRoot = function (modulePath, root)
+	{
+		// Truncate start and extension
+		return modulePath.substring( (
+
+				// Start truncating module name from root parameter
+				( root != null )
+				? modulePath.indexOf(root) + root.length
+
+				// Or from first slash
+				: modulePath.indexOf('/') + 1
+			),
+
+			// Until last dot, to remove extension
+			modulePath.lastIndexOf('.')
+		);
+	};
+
+
+	// ------------------------------------------------------------------------- TASK
+
+	grunt.registerMultiTask('amdCompile', 'Compile and optimize AMD modules files into bundles.', function ()
 	{
 		// Get default options
 		var options = this.options({
 
-			// Default modules root
+			/**
+			 * Default modules root.
+			 * This will be removed from module path.
+			 */
 			root : '',
 
-			// Default var name
+			//
+			/**
+			 * Var name for module name injection as var.
+			 * Default is null, no injection.
+			 * You can use something like "__FILE".
+			 * Then every optimized module will have a `var __FILE="module/path";` statement at first line.
+			 */
 			varName: null, //'__FILE',
 
-			// Default search sentence
+			/**
+			 * Define search sentence. Better to not touch this :)
+			 */
 			search: 'define(',
 
-			// Do not optimize and compile AMD, just concat files
+			/**
+			 * Do not optimize and compile AMD, just concat files, faster !
+			 * Useful for static libraries which you do not want to optimize.
+			 */
 			justConcat: false
 		});
 
@@ -60,7 +106,7 @@ module.exports = function (grunt)
 				}
 
 				// Convert file path to file name
-				var moduleName = moduleNameNormalizer.normalizeTypescriptModuleName([fileName], options.root);
+				var moduleName = normalizeModulePathFromRoot(fileName, options.root);
 
 				// Get the index right after the define call
 				firstIndex = fileContent.indexOf(options.search) + options.search.length;
@@ -103,6 +149,13 @@ module.exports = function (grunt)
 
 					// Count this as optimized module
 					totalModules ++;
+				}
+
+				// No amd define to optimize
+				else
+				{
+					// Just concat
+					newFileContent += fileContent + '\n';
 				}
 			}
 
