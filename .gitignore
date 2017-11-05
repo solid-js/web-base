@@ -27,6 +27,8 @@ src/common/sprites/*.less
 
 # ------------------------------------------------------------------------------ BUILD AND LIBS
 
+.amd
+
 # Ignore typescript fast compile files
 .tscache
 
