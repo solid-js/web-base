@@ -3,7 +3,10 @@ module.exports = function (grunt) {
 		options: {
 			mangle: false,
 			report: 'gzip',
-			footer: '// {= grunt.template.today("yyyy-mm-dd hh:mm:ss") }'
+			comments: false,
+			compress: true,
+			beautify: false,
+			banner: "// {= grunt.template.today('yyyy-mm-dd HH:MM:ss') }\n"
 		}
 	}
 };
