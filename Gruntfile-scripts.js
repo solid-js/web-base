@@ -137,10 +137,12 @@ module.exports = function (grunt, __)
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.config('uglify', {
 		options: {
-			mangle: true,
+			mangle: false,
 			report: 'gzip',
 			comments: false,
-			banner: '// <%= grunt.template.today("yyyy-mm-dd hh:mm:ss TT") %>\n'
+			compress: true,
+			beautify: false,
+			banner: "// {= grunt.template.today('yyyy-mm-dd HH:MM:ss') }\n"
 		}
 	});
 };
