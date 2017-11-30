@@ -1,6 +1,6 @@
 {
 	"name": "solidify-web-base",
-	"version": "0.6.12",
+	"version": "0.6.13",
 	"devDependencies": {
 		"bower": "latest",
 		"commander": "^2.11.0",
