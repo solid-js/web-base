@@ -2,6 +2,9 @@
 
 This project is a scafoldable structure for solid web applications.
 
+### Important
+With older Solid framework, please use the beta branch.
+
 #### Scafold a new project
 
 1. [Installation](https://github.com/solid-js/web-base/blob/master/doc/1-installation.md)
