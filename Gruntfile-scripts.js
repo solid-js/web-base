@@ -6,7 +6,7 @@ module.exports = function (grunt, __)
 	grunt.config('ts', {
 		default: {
 			options: {
-				rootDir : '.',
+				rootDir : '.'
 			},
 
 			// Compile every files and keep architecture for AMD optimization
