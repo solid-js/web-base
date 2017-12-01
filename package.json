@@ -32,11 +32,9 @@
 		"less-plugin-autoprefix": "^1.5.1",
 		"less-plugin-clean-css": "^1.5.1",
 		"less-plugin-glob": "^2.0.1",
-		"solidify-lib": "^1.0.0",
 		"typescript": "^2.6.2"
 	},
 	"scripts": {},
-	"private": true,
 	"dependencies": {
 		"amd-lite": "^1.0.1",
 		"gsap": "^1.20.3",
@@ -46,8 +44,20 @@
 		"react": "^16.2.0",
 		"react-dom": "^16.2.0",
 		"three": "^0.87.1",
-		"tslib": "^1.8.0"
+		"tslib": "^1.8.0",
+		"solidify-lib": "^1.0.0"
 	},
+	"keywords": [
+		"solid",
+		"solidify",
+		"web-base",
+		"boilerplate",
+		"framework",
+		"typescript",
+		"modular",
+		"web",
+		"application"
+	],
 	"author": "Alexis Bouhet",
 	"license": "MIT",
 	"bugs": {

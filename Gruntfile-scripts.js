@@ -65,15 +65,15 @@ module.exports = function (grunt, __)
 				// React lib
 				(
 					__.optimizedTarget
-						? __.nodeModulesPath + 'react/umd/react.production.min.js'
-						: __.nodeModulesPath + 'react/umd/react.development.js'
+					? __.nodeModulesPath + 'react/umd/react.production.min.js'
+					: __.nodeModulesPath + 'react/umd/react.development.js'
 				),
 
 				// React-dom lib
 				(
 					__.optimizedTarget
-						? __.nodeModulesPath + 'react-dom/umd/react-dom.production.min.js'
-						: __.nodeModulesPath + 'react-dom/umd/react-dom.development.js'
+					? __.nodeModulesPath + 'react-dom/umd/react-dom.production.min.js'
+					: __.nodeModulesPath + 'react-dom/umd/react-dom.development.js'
 				),
 
 				// Three lib
@@ -101,12 +101,13 @@ module.exports = function (grunt, __)
 
 		/**
 		 * Common project modules.
-		 * Here are all common components or pages to all apps
+		 * Here are all common components or pages to all apps.
+		 * Also includes Solidify used lib files.
 		 * Uses static libs.
 		 */
 		common: {
 			files: [
-				__.amdFilesRoot + 'lib/' + __.allJsFiles,
+				__.amdFilesRoot + 'node_modules/' + __.allJsFiles,
 				__.amdFilesRoot + 'src/common/' + __.allJsFiles
 			],
 			dest: __.assetsDestination + 'js/common.js'

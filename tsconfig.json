@@ -13,6 +13,17 @@
 		// Enabled libs
 		"lib": ["es6", "dom"],
 
+		"baseUrl": ".", // This must be specified if "paths" is.
+		"paths": {
+			"solidify-lib": ["node_modules/solidify-lib"] // This mapping is relative to "baseUrl"
+		},
+		/*
+		"rootDirs" : [
+			".",
+			"node_modules/solidify-lib"
+		],
+		*/
+
 		// Fallback iterator to ES5
 		"downlevelIteration" : true,
 
@@ -23,7 +34,7 @@
 		//"allowJs": true,
 
 		// Disable node module resolution
-		"moduleResolution" : "classic",
+		"moduleResolution" : "node",
 
 		// Force import statements to have to right case
 		"forceConsistentCasingInFileNames" : true,
@@ -55,14 +66,14 @@
 
 	// Excluded globs
 	"exclude": [
-		"node_modules"
+		//"node_modules"
 	],
 
 	// Always included files, even if they are not in the dependency tree
 	// Useful for dynamically used modules like pages
 	// No module separation at this point, we compile every apps entry points
 	"include" : [
-		"src/**/Main.*",
-		"src/**/pages/**/*.*"
+		"src/*/Main.*",
+		"src/*/pages/*/*.*"
 	]
 }

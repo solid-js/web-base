@@ -1,4 +1,4 @@
-define(["require", "exports", "react-dom", "three", "../../lib/solidify/utils/StringUtils"], function (require, exports, ReactDOM, THREE, StringUtils_1) {
+define(["require", "exports", "react-dom", "three", "solidify-lib/utils/StringUtils"], function (require, exports, ReactDOM, THREE, StringUtils_1) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var Main = (function () {
         function Main() {
