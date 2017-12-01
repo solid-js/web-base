@@ -1,5 +1,5 @@
 // Import the browser normalizer as inline CSS
-@import (inline) './../../lib/normalize-css/normalize.css';
+@import (inline) './../../node_modules/normalize-css/normalize.css';
 
 // Import solid reset with default margins to 0 and border-box to border-box
 @import (inline) './../../lib/solidify/style/reset.less';
@@ -8,17 +8,21 @@
 @import './../../lib/solidify/style/mixins.less';
 
 // Import atoms (less properties) as reference
-@import (reference) 'atoms/Colors';
-@import (reference) 'atoms/Properties';
+//@import (reference) 'atoms/Colors';
+//@import (reference) 'atoms/Properties';
 
 // Import fonts
-@import 'fonts/Arial';
+//@import 'fonts/Arial';
 
 // Import layout
-@import 'layout/Body';
+//@import 'layout/Body';
 
 // Import common elements
-@import 'elements/Links';
-@import 'elements/Loaders';
-@import 'elements/Logos';
-@import 'elements/Messages';
+//@import 'elements/Links';
+//@import 'elements/Loaders';
+//@import 'elements/Logos';
+//@import 'elements/Messages';
+
+
+@import "components/**";
+@import "pages/**";

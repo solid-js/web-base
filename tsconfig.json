@@ -1,0 +1,68 @@
+{
+	/**
+	 * Help and usage :
+	 * https://www.typescriptlang.org/docs/handbook/compiler-options.html
+	 */
+
+	"compilerOptions": {
+
+		// Module system and ECMA version target
+		"module" : "amd",
+		"target": "es5",
+
+		// Enabled libs
+		"lib": ["es6", "dom"],
+
+		// Fallback iterator to ES5
+		"downlevelIteration" : true,
+
+		// Disable sourceMaps compilation
+		"sourceMap": false,
+
+		// Allow js files loading
+		//"allowJs": true,
+
+		// Disable node module resolution
+		"moduleResolution" : "classic",
+
+		// Force import statements to have to right case
+		"forceConsistentCasingInFileNames" : true,
+
+		// Transpiling options
+		"removeComments" : true,
+		"noImplicitUseStrict" : true,
+
+		// Enable JSX transpiling with react
+		"jsx": "react",
+
+		// Experimental decorators
+		//"emitDecoratorMetadata" : true,
+		//"experimentalDecorators" : true,
+
+		// Type checking options
+		"preserveConstEnums" : false,
+		"allowUnreachableCode" : true,
+
+		// Disable helpers because we include them once as a static lib
+		"importHelpers" : false,
+		"noEmitHelpers" : true,
+
+		// Console options
+		"pretty" : true
+		//"listFiles" : true // Can be useful to detect why compilation is slow
+		//"diagnostics" : true // Show a lot of informations about compilation time
+	},
+
+	// Excluded globs
+	"exclude": [
+		"node_modules"
+	],
+
+	// Always included files, even if they are not in the dependency tree
+	// Useful for dynamically used modules like pages
+	// No module separation at this point, we compile every apps entry points
+	"include" : [
+		"src/**/Main.*",
+		"src/**/pages/**/*.*"
+	]
+}

@@ -27,17 +27,19 @@
 
 	<!-- APP SCRIPTS -->
 	<script>
-		// Bootstraping main javascript app
-		requirejs(['src/myApp1/Main'], function (MainModule)
-		{
-			var app = new MainModule.Main({
-				// Target root node
-				root	: $('.AppContainer'),
 
-				locale	: '',
-				base	: ''
-			});
+		// Bootstraping main javascript app
+
+		require(['src/myApp1/Main'], function (MainModule)
+		{
+			new MainModule.Main();
 		});
+
+		require(['src/myApp2/Main'], function (MainModule)
+		{
+			new MainModule.Main();
+		});
+
 	</script>
 </body>
 </html>

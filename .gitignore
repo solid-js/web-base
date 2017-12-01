@@ -1,4 +1,7 @@
 
+# TODO : Refacto this file
+
+
 
 # ------------------------------------------------------------------------------ DEPLOYED FILES
 
@@ -24,18 +27,18 @@ src/common/sprites/*.less
 
 # ------------------------------------------------------------------------------ BUILD AND LIBS
 
+_old/*
+
+.amd
+
 # Ignore typescript fast compile files
-build/.tscache
+.tscache
 
 # Ignore typescript command files
-build/tscommand*
+tscommand*
 
 # Ignore build files
 build/temp/*
-
-# Do not ignore typings definitions
-# Typings are included on purpose
-#build/typings/*
 
 # Ignore bower dependecies
 lib/
@@ -58,4 +61,4 @@ logs
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
-package-lock.json
+#package-lock.json
